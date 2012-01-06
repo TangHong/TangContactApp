@@ -1,0 +1,10 @@
+{
+  "name": "TangContactApp",
+  "version": "1.0",
+  "description": "A extension for chrome",
+  "app": {
+    "launch": {
+      "local_path": "index.html"
+    }
+  }
+}

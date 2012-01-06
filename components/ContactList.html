@@ -1,0 +1,34 @@
+<script type="text/javascript">
+	(function($) {
+		brite.registerComponent("ContactList", {emptyParent : true}, function() {
+			return new ipad.ContactList();
+		});
+	})(jQuery);
+</script>
+
+<script type="text/html" id="ipad-ContactList">
+	<div class="ContactList">
+		<div>
+			<div class="search">
+				<div class="search-input">
+						<input type="text" class="input"/>
+				</div>
+		   </div>
+			<div class="ipad-contactList">
+					{{if contactList.length>0}}
+						{{each contactList}}
+							<div class="con" data_obj-id="${id}">
+								<div class="image"><img src="../images/face.png"></div>
+								<div class="text">${name} </div>
+								<div class="del"><span></span></div>
+								<div class="star-not-sel star"><span></span></div>
+							</div>
+						{{/each}}
+					{{else}}	
+						no contact
+					{{/if}}	
+			</div>
+			<div><button class="button-add">Add</button></div>
+		</div>
+	</div>
+</script>

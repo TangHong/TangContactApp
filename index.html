@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Ipad Contact App</title>
+		
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/ContactCreate.css" />
+		<link rel="stylesheet" type="text/css" href="css/ContactList.css" />
+
+		<script type="text/javascript" src="js/0_jquery.min.js" ></script>
+		<script type="text/javascript" src="js/jquery.render.min.js"></script>	
+		<script type="text/javascript" src="js/1_brite.core.js" ></script>	
+		<script type="text/javascript" src="js/2_brite.dm.js" ></script>
+		<script type="text/javascript" src="js/webDataBase.js" ></script>
+		<script type="text/javascript" src="js/ContactDao.js" ></script>
+		<script type="text/javascript" src="js/main.js" ></script>
+		<script type="text/javascript" src="js/ContactList.js" ></script>
+		<script type="text/javascript" src="js/ContactCreate.js" ></script>
+		
+		
+    </head>
+    <body>
+    	<div  id="container">
+		
+		</div> 
+		<script type="text/javascript">
+			var $workspace = $("body").find("#container");
+			
+			$(document).ready(function(){
+				brite.display("main",null, {
+					parent : $workspace
+				});
+			});
+		</script>
+    </body>
+</html>

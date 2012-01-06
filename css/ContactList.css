@@ -1,0 +1,58 @@
+.con{
+	width:350px;
+	background:-webkit-gradient(linear,left top,left bottom, from(#F4F4F4), to(#D0D0D0)) ; 
+}
+
+.image{
+	display: inline-table;
+}
+.text{
+	text-align:center;
+	width:250px;
+	display: inline-table;
+	font-family:Arial;
+}
+.del{
+	display: inline-table;
+	background-image:url(../images/delete.png);
+	width:20px;
+	height:20px;
+	margin-bottom:4px;
+}
+.star-not-sel{
+	float:right;
+	width:24px;
+	height:23px;
+	display: inline-table;
+	background-image:url(../images/star.png);
+	margin-top:5px;
+}
+.star-sel{
+	float:right;
+	width:24px;
+	height:23px;
+	display: inline-table;
+	background-image:url(../images/star-light.png);
+	margin-top:5px;
+}
+.search{
+	background:-webkit-gradient(linear,left top,left bottom, from(#F3F5F7), to(#A8ADBA)) ; 
+	width:348px;
+	height:38px;
+	padding-top:10px;
+	border:1px solid #838A9A;
+}
+.search-input{
+	height:30px;
+	width:300px;
+	border-radius:15px;
+	margin:0px 25px 0px 25px;
+	background:#FFFFFF;
+}
+.search-input >input{
+	height:25px;
+	width:220px;
+	margin-left:40px;
+	outline:none;	
+	border:0px;
+}

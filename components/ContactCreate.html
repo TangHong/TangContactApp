@@ -1,0 +1,23 @@
+<!-- dialogPrompt -->
+<script type="text/javascript">
+	(function($) {
+		brite.registerComponent("ContactCreate", {emptyParent : false}, function() {
+			return new ipad.ContactCreate();
+		});
+
+	})(jQuery);
+</script>
+
+
+<script type="text/html" id="ipad-contact">
+	<div class="Dialog-container">
+		 <div class="DialogPrompt">
+	        <h2>Please enter username</h2>
+	       	<input type="text" name="username" class="username"/>
+	        <div class="DialogPrompt-buttonbar">
+	 						<button class="ok">OK</button>
+	            <button class="cancel">Cancel</button>
+	        </div>
+	    </div>
+   </div>
+</script>

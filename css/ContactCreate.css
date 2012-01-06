@@ -1,0 +1,30 @@
+.DialogPrompt {
+	position: absolute;
+	top: 35%;
+	left: 35%;
+	width: 300px;
+	background: #0B2F2C;
+	color: #ffffff;
+	border: solid 2px #666666;
+	padding-bottom: 10px;
+	margin-left:auto;
+}
+.DialogPrompt > h2 {
+	text-align: center;
+	font-size: 18px;
+	padding: 10px;
+	border-bottom: solid 1px #777777;
+	font-family:Arial;
+}
+.DialogPrompt > p {
+	text-align: center;
+	margin: 10px 10px 20px 10px;
+}
+.DialogPrompt > input {
+	width:200px;
+	border:1px solid #FFFFFF;
+	margin:10px 50px 20px 50px;
+}
+.DialogPrompt .DialogPrompt-buttonbar {
+	text-align: center;
+}

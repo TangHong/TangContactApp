@@ -1,5 +1,16 @@
+.main {
+	background-image:url(../images/iPad_GUI_PSD_3.png);
+	width:1000px;
+	height:1276px;
+	background-repeat: no-repeat;
+	background-position: -127px -202px;
+	border-radius:70px;
+}
+
 .index-header{
-	background:-webkit-gradient(linear,0 0,0 50%, from(#545454), to(#000000)) ; 	text-align:center;
+	background:-webkit-gradient(linear,0 0,0 50%, from(#545454), to(#000000)) ; 
+	text-align:center;
+	width:1024px;
 	height:40px;
 	padding-top:10px;
 }
@@ -41,8 +52,16 @@
 
 
 .contact-container{
+	float:left;
 	width:350px;
-	height:750px;
+	height:738px;
 	background-color:#9D9D9D;
+}
+
+.contacts-home {
+	float:left;
+	width:674px;
+	height:738px;
+	background-color:#bababa;
 }
 

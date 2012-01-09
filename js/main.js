@@ -28,6 +28,9 @@ var ipad = ipad || {};
 			parent:$contactContainer
 		});
 		
+		brite.display("ContactHome",null,{
+			parent:$(".contacts-home")
+		})
 		
 		//$e.delegate(".showContacCreate","click",function() {
 		//	brite.display("ContactCreate");

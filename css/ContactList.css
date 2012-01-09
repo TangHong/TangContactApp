@@ -37,10 +37,10 @@
 }
 .search{
 	background:-webkit-gradient(linear,left top,left bottom, from(#F3F5F7), to(#A8ADBA)) ; 
-	width:348px;
 	height:38px;
 	padding-top:10px;
-	border:1px solid #838A9A;
+	border-top:1px solid #838A9A;
+	border-bottom:1px solid #838A9A;
 }
 .search-input{
 	height:30px;

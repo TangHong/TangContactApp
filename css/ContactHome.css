@@ -1,0 +1,16 @@
+.ContactHome{
+	border-left:1px solid #AAAAAA;
+}
+
+.ContactHome-header{
+	background:-webkit-gradient(linear,0 0,0 100%, from(#F5F6F8), to(#A8ADBA)) ; 
+	text-align:center;
+	color:#717880;
+	height:38px;
+	font-size:1.2em;
+	font-family:Arial;
+	padding-top:10px;
+	text-shadow: 0 1px 0 #D8D9DC;
+	border-top:1px solid #848B9B;
+	border-bottom:1px solid #848B9B;
+} 

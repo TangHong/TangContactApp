@@ -11,6 +11,9 @@ var brite = brite || {};
 (function($) {
 
 	var _componentDefStore = {};
+	
+	// _templateLoadedPerComponentName[ComponentName] is defined and === true wne the template has been loaded
+	var _templateLoadedPerComponentName = {};
 
 	// when loading a component, we put a promise in this map
 	var _deferredByComponentName = {};
@@ -28,24 +31,32 @@ var brite = brite || {};
 	 * @param {config}
 	 *            config a config object
 	 * 
-	 * @param {String|jQuery}
-	 *            config.parent jquery selector, html element, jquery object (if not set, the the element will not be
+	 *            config.parent {String|jQuery} jquery selector, html element, jquery object (if not set, the the element will not be
 	 *            added in the rendering logic). <br />
 	 *            Note 1) If ctx.parent is absent from the component definition and from this method call, the brite
 	 *            will not append the returned element to the DOM. So, if ctx.parent is null, then the create() must
 	 *            take care of adding the elements to the DOM. However, the postDisplay will still be called.
-	 * @param {String}
-	 *            config.animation (experimental) the animation ("fromLeft" , "fromRight", or null) (default undefined)
-	 * @param {String|jQuery}
-	 *            config.replace jquery selector string, html element, or jquery object (default undefined) of the
+	 *
+	 *            config.animation (experimental) {String} the animation ("fromLeft" , "fromRight", or null) (default undefined)
+	 * 
+	 *            config.replace (experimental) {String|jQuery} jquery selector string, html element, or jquery object (default undefined) of the
 	 *            element to be replaced
-	 * @param {Boolean}
-	 *            config.emptyParent if set/true will call empty() on the parent before adding the new element (default
+	 * 
+	 *            config.emptyParent {Boolean} (default false) if set/true will call empty() on the parent before adding the new element (default
 	 *            false). Valid only if no transition and build return an element
-	 * @param {Boolean}
-	 *            config.unique if true, the component will be display only if there is not already one component with
+	 * 
+	 *            config.unique (experimental) {Boolean} if true, the component will be display only if there is not already one component with
 	 *            the same name in the page.
 	 * 
+	 *            config.loadTemplate {Boolean|String} (default false) If true, then, it will load the template the first time this component is displayed.
+	 *                                                 If it is a string it use it as the file name to be loaded from the directory. If it starts with "/" then, it will be from the base, otherwise,
+	 * 												   it will be relative to the template folder. The default template folder is "template/" but can be set by brite.config.templatePath.
+	 *                                                 
+	 * 
+	 *            config.checkTemplate {Boolean|String|jQuery} (default false). (require config.loadTemplate) If true, it will check if the template for this component has been added, by default it will check "#tmpl-ComponentName". 
+	 *                                                                   If it is a string or jQuery, then it will be use with jQuery if it exists.
+	 *                                       							 Note that the check happen only the first time, then, brite will remember for subsequent brite.display  
+	 *                                     
 	 * @param {Object|Function}
 	 *            componentFactory (Required) Factory function or "object template" that will be used to create the
 	 *            object instance. If componentFactory is a plain object, the "object template" will be cloned to create
@@ -55,26 +66,28 @@ var brite = brite || {};
 	 * 
 	 * A "Component" object can have the following methods <br />
 	 * <br />
-	 * component.create(data,config): (required) function that will be called with (data,config) to build the
-	 * component.$element.<br />
-	 * component.init(data,config): (optional) Will be called just after the create and the component instance has been
-	 * initialized. <br />
-	 * component.postDisplay(data,config): (optional) This method will get called with (data,config) after the component
-	 * has been created and initialized (postDisplay is deferred for performance optimization) <br />
-	 * Since this call will be deferred, it is a good place to do non-visible logic, such as event bindings.<br />
-	 * component.destroy() (optional) This will get called when $.bRemove or $.bEmpty is called on a parent (or on the
-	 * element for $.bRemove). It will get called before this component htmlElement will get removed<br />
-	 * component.postDestroy() (optional) This will get called when $.bRemove or $.bEmpty is called on a parent (or on
-	 * the element for $.bRemove). It will get called after this component htmlElement will get removed<br />
+	 *      component.create(data,config): (required) function that will be called with (data,config) to build the
+	 *                                     component.$element.<br />
+	 *      component.init(data,config): (optional) Will be called just after the create and the component instance has been
+	 * 								      initialized. <br />
+	 *      component.postDisplay(data,config): (optional) This method will get called with (data,config) after the component
+	 *                                          has been created and initialized (postDisplay is deferred for performance optimization) <br />
+	 *                                          Since this call will be deferred, it is a good place to do non-visible logic, such as event bindings.<br />
+	 *      component.destroy() (optional) This will get called when $.bRemove or $.bEmpty is called on a parent (or on the
+	 *                                     element for $.bRemove). It will get called before this component htmlElement will get removed<br />
+	 *      component.postDestroy() (optional) This will get called when $.bRemove or $.bEmpty is called on a parent (or on
+	 *                                         the element for $.bRemove). It will get called after this component htmlElement will get removed<br />
 	 * 
 	 */
 	brite.registerComponent = function(name, config, componentFactory) {
 		var def = {};
 		def.name = name;
 		def.componentFactory = componentFactory;
-		def.config = config;
+		def.config = $.extend({}, brite.defaultComponentConfig,config);
 		_componentDefStore[name] = def;
 
+		// This resolve the deferred if we had a deferred component loading 
+		// (old way, where the brite.register is in the template)
 		var deferred = _deferredByComponentName[name];
 		if (deferred) {
 			deferred.resolve(def);
@@ -146,9 +159,10 @@ var brite = brite || {};
 	 * 
 	 */
 	brite.config = {
-
-		componentsHTMLHolder : "body",
-		componentsPath : "components/"
+		componentsHTMLHolder: "body",
+		componentsPath: "components/", 
+		templatePath: "template/"
+		
 	}
 
 	brite.defaultComponentConfig = {
@@ -182,10 +196,41 @@ var brite = brite || {};
 		var loaderDeferred = $.Deferred();
 
 		var componentDef = _componentDefStore[name];
-
-		// if the component already exist, just return it.
+		
+		// if the component already has been registered, check if we need to load the template, and then resolve it.
 		if (componentDef) {
-			loaderDeferred.resolve(componentDef);
+			var loadTemplate = componentDef.config.loadTemplate; 
+			if (loadTemplate && !_templateLoadedPerComponentName[name] ){
+
+				// if we have a check template, we need to check if the template has been already loaded
+				var needsToLoadTemplate = true;
+				var checkTemplate = componentDef.config.checkTemplate;				
+				if (checkTemplate){
+					var templateSelector = (typeof checkTemplate == "string")?checkTemplate:("#tmpl-" + name);
+					if ($(templateSelector).length > 0){
+						needsToLoadTemplate = false;
+					}					
+				}
+				 
+				if (needsToLoadTemplate){
+					// if it is a string, then, it is the templatename, otherwise, the component name is the name
+					var templateName = (typeof loadTemplate == "string")?templateName:(name + ".html");
+					$.ajax({
+						url : brite.config.templatePath + name + ".html",
+						async : true
+					}).complete(function(jqXHR, textStatus) {
+						$(brite.config.componentsHTMLHolder).append(jqXHR.responseText);
+						_templateLoadedPerComponentName[name] = true;
+						loaderDeferred.resolve(componentDef);
+					});				
+				}else{
+					loaderDeferred.resolve(componentDef);
+				}
+				
+			}else{
+				loaderDeferred.resolve(componentDef);
+			}
+			
 		}
 		// if the component is not loaded, load it
 		else {
@@ -208,7 +253,6 @@ var brite = brite || {};
 		}
 		return loaderDeferred.promise();
 	}
-	;
 
 	// if $element exist, then, bypass the create
 	function process(name, data, config, $element) {
@@ -380,7 +424,7 @@ var brite = brite || {};
 	// ------ Private Helpers ------ //
 	// build a config for a componentDef
 	function buildConfig(componentDef, config) {
-		var instanceConfig = $.extend({}, this.defaultComponentConfig, componentDef.config, config);
+		var instanceConfig = $.extend({}, componentDef.config, config);
 		instanceConfig.componentName = componentDef.name;
 		return instanceConfig;
 	}
@@ -445,12 +489,12 @@ var brite = brite || {};
 			if (config.postDisplayDelay >= 0) {
 				setTimeout(function() {
 					var postDisplayDfd = component.postDisplay(data, config);
-					if (postDisplayDfd && $.isFunction(postDisplayDfd)) {
+					if (postDisplayDfd && $.isFunction(postDisplayDfd.promise)) {
 						postDisplayDfd.done(function() {
 							invokeDfd.resolve();
 						});
 					} else {
-						invokeDfd
+						invokeDfd.resolve();
 					}
 				}, config.postDisplayDelay);
 			}
@@ -458,7 +502,7 @@ var brite = brite || {};
 			else {
 
 				var postDisplayDfd = component.postDisplay(data, config);
-				if (postDisplayDfd && $.isFunction(postDisplayDfd)) {
+				if (postDisplayDfd && $.isFunction(postDisplayDfd.promise)) {
 					postDisplayDfd.done(function() {
 						invokeDfd.resolve();
 					});
@@ -1458,3 +1502,1045 @@ brite.ua = {};
 
 // ------ /brite.gtx ------- //
 // ----------------------- //
+var brite = brite || {};
+
+/**
+ * @namespace brite.dm data manager layers to register, access DAOs.
+ * DAOs are javascript objects that must implement the following CRUD methods get, list, create, update, remove, and the getIdName method.<br /> 
+ * Signatures of these methods should match the corresponding brite.dm.** methods.<br />
+ * <br />
+ * Note that DAO CRUD methods can return directly the result or a deferred object. Also, it is important to note that brite.dm.*** CRUD access methods
+ * will always return deferred object (either the DAO return deferred, or a wrapped deferred if the DAO method did not return a deferred)<br />
+ * <br />
+ * The deferred pattern for daos allows the application to be agnostic about the call mode, synchronous or asynchronous (e.g. Ajax, Workers, and other callback based called), 
+ * and consequently offer the maximum flexibility during development and production. It also enforce a good practice on how to build the UI components.<br />
+ * <br />
+ * If there is a need to access the daos result directly, the brite.sdm ("straight dm") can be used.  
+ */
+brite.dm = {};
+
+(function($) {
+
+	var daoDic = {};
+
+	//data change listeners
+	var daoChangeEventListeners = {};
+	
+	//daoListeners
+	var daoListeners = {};
+
+	function getDao(objectType) {
+		var dao = daoDic[objectType];
+		if (dao) {
+			return dao;
+		} else {
+			var er = "Cannot find the DAO for objectType: " + objectType;
+			brite.log.error(er);
+			throw er;
+		}
+	};
+
+	/**
+	 * Register a DAO for a given object type. A DAO must implements the "CRUD" method, get, list, create, update, remove and must return (directly 
+	 * or via deferred) the appropriate result value. 
+	 * 
+	 * @param {String} objectType the object type that this dao will represent
+	 * @param {DAO Oject} a Dao instance that implement the crud methods: get, find, create, update, remove.
+	 */
+	brite.registerDao = function(objectType, dao) {
+		daoDic[objectType] = dao;
+		return this;
+	};
+
+	
+	/**
+	 * 
+	 * Add a dao Listener.
+	 * 
+	 * @param {function} daoListener  function that will get called with the following argument
+	 *     							  daoListener(DaoEvent). Deferred is the deferred returned by the brite.dm.***, and DaoEvent is the event object
+	 *     
+	 * DaoEvent will have the following format:
+	 *    DaoEvent.action: the action of the dao method (create, update, get, list, remove)
+	 *    DaoEvent.objectType: the object type for this call
+	 *    DaoEvent.result: the raw result returned by the dao (could be the result or the deferred that will get resolve to the result) 
+	 *    DaoEvent.data: the data originally send to do the action (if appropriate) 
+	 *    DaoEvent.id: the eventual id (if appropriate)
+	 *    DaoEvent.opts: the eventual opts (when list) 
+	 * 
+	 * @returns listenerId that can be used to remove the listener with brite.removeDaoListener(listenerId)
+	 */
+	brite.addDaoListener = function(daoListener){
+		var listenerId = brite.util.uuid();
+		daoListeners[listenerId] = daoListener;
+		
+		return listenerId;
+	}
+	
+	brite.removeDaoListener = function(listenerId){
+		delete daoListeners[listenerId];
+	}
+	
+	
+	/**
+	 * Add a change listener function for an objectType. <br />
+	 * Data Change listener get triggered on create, update, and remove.
+	 * 
+	 * @param {String} objectType
+	 * @param {Function} listener function. will be called with the dataChangeEvent argument
+	 * dataChangeEvent.objectType {string}
+	 * dataChangeEvent.action {string} could be "create" "update" "remove"
+	 * dataChangeEvent.newData {object} The data after the change (null if remove) (if applicable)
+	 * dataChangeEvent.saveData {object} The data object that was used to do the create/update. Could be partial object.  (if applicable) (TODO: need to clarify)
+	 */
+	brite.addDataChangeListener = function(objectType, listener) {
+		var bindingId = brite.util.uuid();
+		var listeners = daoChangeEventListeners[objectType];
+		if (!listeners) {
+			listeners = {};
+			daoChangeEventListeners[objectType] = listeners;
+		}
+		listeners[bindingId] = listener;
+		
+		return bindingId;
+	};
+	
+	brite.removeDataChangeListener = function(listenerId){
+		$.each(daoChangeEventListeners,function(idx,listeners){
+			delete listeners[listenerId];
+		})
+	}
+
+	/**
+	 * Return the id property name (this is the only method in brite.ddm that is not deferred)
+	 */
+	brite.dm.getIdName = function(objectType) {
+		return brite.sdm.getIdName(objectType);
+	}
+
+	/**
+	 * Wrap the brite.sdm.get(objectType,id) with a deferred result
+	 */
+	brite.dm.get = function(objectType, id) {
+		return wrapWithDeferred(brite.sdm.get(objectType, id));
+	}
+
+	/**
+	 * Wrap the brite.sdm.list(objectType,opts) with a deferred result
+	 */
+	brite.dm.list = function(objectType, opts) {
+		return wrapWithDeferred(brite.sdm.list(objectType, opts));
+	}
+
+	/**
+	 * Wrap the brite.sdm.create(objectType,data) with a deferred result
+	 */
+	brite.dm.create = function(objectType, data) {
+		return wrapWithDeferred(brite.sdm.create(objectType, data));
+	}
+
+	/**
+	 * Wrap the brite.sdm.update(objectType,id,data) with a deferred result
+	 */
+	brite.dm.update = function(objectType, id, data) {
+		return wrapWithDeferred(brite.sdm.update(objectType, id, data));
+	}
+
+	/**
+	 * Wrap the brite.sdm.remove(objectType,id) with a deferred result
+	 */
+	brite.dm.remove = function(objectType, id) {
+		return wrapWithDeferred(brite.sdm.remove(objectType, id));
+	}
+	
+	/**
+	 * Wrap the brite.sdm.invoke(methodName,objectType) with a deferred result
+	 */
+	brite.dm.invoke = function(methodName, objectType) {
+		var args = Array.prototype.slice.call(arguments,0); 
+		return wrapWithDeferred(brite.sdm.invoke.apply(null,args));
+	}	
+
+	// ------- brite.sdm DAO API ------ //
+	/**
+	 * @namespace brite.sdm Straight Data Manager API that just return what the DAO returns (it does not Deferred wrap). This is mostly used by the brite.dm, but
+	 * could be used by the application when it is ok to have blocking data calls (i.e. local data) or to expose the async/sync to the application layer.
+	 */
+	brite.sdm = {};
+
+	/**
+	 * DAO Interface: Return the property ID name
+	 * @param {string} the objectType
+	 * @return the id (this is not deferred)
+	 * @throws error if dao cannot be found
+	 */
+	brite.sdm.getIdName = function(objectType) {
+		return getDao(objectType).getIdName(objectType);
+	}
+
+	/**
+	 * DAO Interface: Return a value or deferred object (depending of DAO impl) for this objectType and id.
+	 * @param {Object} objectType
+	 * @param {Object} id
+	 * @return
+	 */
+	brite.sdm.get = function(objectType, id) {
+		var result = getDao(objectType).get(objectType, id);
+		
+		callDaoListeners(result,"get",objectType,id);
+		
+		return result;
+	};
+
+	/**
+	 * DAO Interface: Return an array of values or a deferred object (depending of DAO impl) for this objectType and options
+	 * @param {Object} objectType
+	 * @param {Object} opts (not supported yet)
+	 *           opts.pageIndex {Number} Index of the page, starting at 0.
+	 *           opts.pageSize  {Number} Size of the page
+	 *           opts.match     {Object}
+	 *           opts.orderBy   {String}
+	 *           opts.orderType {String} "asc" or "desc"
+	 */
+	brite.sdm.list = function(objectType, opts) {
+		var result =  getDao(objectType).list(objectType, opts);
+		
+		callDaoListeners(result,"list",objectType,null,null,opts);
+		
+		return result;
+	};
+
+	/**
+	 * DAO Interface: Create a new instance of the object for a give objectType and data. <br />
+	 *
+	 * The DAO should return or resolve with the newly created data.
+	 *
+	 * @param {Object} objectType
+	 * @param {Object} data
+	 */
+	brite.sdm.create = function(objectType, data) {
+		var result = getDao(objectType).create(objectType, data);
+
+		callDaoListeners(result,"create",objectType,null,data);
+		
+		// if the result is a deferred object, then, wait until done to callDataChangeListeners
+		if (result && $.isFunction(result.promise)) {
+			result.done( function(newData) {
+				// TODO: need to get the id to set the id rather than null
+				callDataChangeListeners("create",objectType, null, newData, data);
+			});
+
+		} else {
+			callDataChangeListeners("create",objectType, null, result, data); 
+		}
+		return result;
+
+	};
+
+	/**
+	 * DAO Interface: update a existing id with a set of property/value data.
+	 *
+	 */
+	brite.sdm.update = function(objectType, id, data) {
+		var result = getDao(objectType).update(objectType,id, data);
+
+		callDaoListeners(result,"update",objectType,id,data);
+		
+		// if the result is a deferred object, then, wait until done to callChangeListeners
+		if (result && $.isFunction(result.promise)) {
+			result.done( function(newData) {
+				callDataChangeListeners("update",objectType, id, newData, data); 
+			});
+
+		} else {
+			callDataChangeListeners("update",objectType, id, result, data); 
+
+		}
+		return result;
+
+	};
+
+	/**
+	 * DAO Interface: remove an entity for a given type and id.
+	 *
+	 */
+	brite.sdm.remove = function(objectType, id) {
+		var result = getDao(objectType).remove(objectType, id);
+
+		callDaoListeners(result,"remove",objectType,id);
+		
+		// if the result is a deferred object, then, wait until done to callChangeListeners
+		if (result && $.isFunction(result.promise)) {
+			result.done( function(removedObject) {
+				callDataChangeListeners("remove",objectType, id, null, null); 
+			});
+
+		} else {
+			callDataChangeListeners("remove",objectType, id, null, null);
+		}
+
+	};
+	
+	brite.sdm.invoke = function(methodName,objectType){
+		var args = Array.prototype.slice.call(arguments); 
+		
+		var dao = getDao(objectType);
+		if (!dao) throw  ("cannot find dao for " + objectType);
+		if (!dao[methodName]) throw  ("no custom method for " + method);
+		var result = dao[methodName].apply(dao,args.slice(1));
+		
+		callDaoListeners(result,methodName,objectType);
+		
+		return result;
+		
+	}
+
+	// ------- /brite.sdm DAO API ------ //
+
+	function callDaoListeners(result,action,objectType,id, data, opts){
+		var daoEvent = {
+				result: result,
+				action: action,
+				objectType: objectType,
+				id: id,
+				data: data, 
+				opts: opts
+		}
+		
+		$.each(daoListeners,function(listenerId,listener){
+			listener(daoEvent);
+		});
+	}
+
+	/**
+	 * Private method to trigger the change(daoEvent) on all listeners.
+	 * NOTE: this param names maps to what is daoChangeEvent
+	 *
+	 * @param {Object} action ("remove" "create" "update")
+	 * @param {Object} objectType
+	 * @param {Object} id
+	 * @param {Object} newData The data after the change (null if remove)
+	 * @param {Object} saveData The data object that was used to do the create/update. Could be partial object.
+	 */
+	function callDataChangeListeners(action,objectType, id, newData, saveData) {
+
+		var dataChangeEvent = {
+			action: action,
+			objectType: objectType,
+			id: id,
+			newData: newData,
+			saveData: saveData
+		};
+		
+		_callDataChangeListeners(dataChangeEvent)
+
+	};
+	
+	function _callDataChangeListeners(dataChangeEvent){
+		var objectType = dataChangeEvent.objectType;
+		var listeners = daoChangeEventListeners[objectType];
+		if (listeners) {
+			$.each(listeners,function(key,listener){
+				listener(dataChangeEvent);
+			});
+		}		
+	}
+	
+	brite.triggerDataChange = function(dataChangeEvent){
+		_callDataChangeListeners(dataChangeEvent);
+	}
+	
+
+	/**
+	 * Wrap with a deferred object if the obj is not a deferred itself.
+	 */
+	function wrapWithDeferred(obj) {
+		//if it is a deferred, then, trust it, return it.
+		if (obj && $.isFunction(obj.promise)) {
+			return obj;
+		} else {
+			var dfd = $.Deferred();
+			dfd.resolve(obj);
+			return dfd;
+		}
+	}
+
+})(jQuery);
+
+// ------ Simple DAO ------ //
+/**
+ * @namespace Some default convenient DAOs (for now, only development DAOs)
+ */
+brite.dao = {};
+
+(function($) {
+
+	function SimpleDao(store) {
+		this.init(store);
+	}
+
+	SimpleDao.prototype.init = function(store) {
+		this._store = store || [];
+		return this;
+	}
+
+	// ------ DAO Interface Implementation ------ //
+	SimpleDao.prototype.getIdName = function(objectType) {
+		return "id";
+	}
+
+	SimpleDao.prototype.get = function(objectType, id) {
+		var idx = brite.util.array.getIndex(this._store, "id", id);
+		return this._store[idx];
+	}
+
+	//for now, just support opts.orderBy
+	SimpleDao.prototype.list = function(objectType, opts) {
+		//TODO: probably need to copy the array to avoid giving the original array
+		var resultSet = this._store;
+
+		if (opts) {
+			if (opts.orderBy) {
+				resultSet = brite.util.array.sortBy(resultSet, opts.orderBy)
+			}
+			if (opts.match) {
+				resultSet = $.map(resultSet, function(val, idx) {
+					var pass = true;
+
+					$.each(opts.match, function(k, v) {
+						if (val[k] === v) {
+							pass = pass && true;
+						} else {
+							pass = false;
+						}
+					});
+
+					return (pass) ? val : null;
+				});
+
+			}
+		}
+		return resultSet;
+	}
+
+	SimpleDao.prototype.create = function(objectType, data) {
+		var idName = brite.dm.getIdName(objectType);
+
+		// if the id has already been created, no biggies, otherwise, create it.
+		if (typeof data[idName] !== "undefined") {
+			var er = "SimpleDao.create error: Id present in data object. Cannot create. You might want to call update instead.";
+			brite.log.debug(er);
+			throw er;
+
+		}
+
+		data[idName] = brite.util.uuid(12);
+
+		this._store.push(data);
+
+		return data;
+	}
+
+	SimpleDao.prototype.update = function(objectType, id, data) {
+		// if there is an id, make sure it matches
+		var idName = brite.dm.getIdName(objectType);
+		var dataId = data[idName];
+		if (typeof dataId !== "undefined" && dataId != id) {
+			var er = "SimpleDao.update error: Id in param and data does not match. Cannot update data.";
+			brite.log.debug(er);
+			throw er;
+		}
+
+		// remove the id from the data to be saved, not needed.
+		delete data[idName];
+
+		//get the data, and populate the new value
+		var storeData = this.get(objectType, id);
+		if (storeData) {
+			$.extend(storeData, data);
+			return storeData;
+		}
+	}
+
+	SimpleDao.prototype.remove = function(objectType, id) {
+		var oldData = this.get(objectType, id);
+		var idx = brite.util.array.getIndex(this._store, "id", id);
+		if (idx > -1) {
+			brite.util.array.remove(this._store, idx);
+		} else {
+			var er = "SimpleDao.remove error: Ojbect " + objectType + "[" + id + "] not found. Cannot delete.";
+			brite.log.debug(er);
+			throw er;
+		}
+
+		return id;
+	}
+
+	// ------ /DAO Interface Implementation ------ //
+
+	/**
+	 * SimpleDao is a Dao for a in memory array based storage. Each data item is stored as an array item,
+	 * and have a unique .id property (that will be added on save is not present). <br />
+	 *
+	 * This is only for development, as there is not storage behind it.
+	 *
+	 * @param {Array}  store (optional) Array of json object representing each data item
+	 */
+	brite.dao.SimpleDao = SimpleDao;
+})(jQuery);
+
+// ------ /Simple DAO ------ //
+
+// ------ Simple Rel DAO ------ //
+(function($) {
+
+	function SimpleRelDao(store, rels) {
+		this._super.init.call(this, store);
+		this._rels = rels;
+		this._relDic = {};
+		for (var i = 0, l = rels.length; i < l; i++) {
+			this._relDic[rels[i]] = rels[i] + "_id";
+		}
+	}
+
+	brite.util.inherit(SimpleRelDao, brite.dao.SimpleDao);
+
+	SimpleRelDao.prototype.get = function(objectType, id) {
+		var result = this._super.get.call(this, objectType, id);
+		return completeData.call(this, result);
+	}
+
+	SimpleRelDao.prototype.list = function(objectType, opts) {
+		var resultSet = this._super.list.call(this, objectType, opts);
+
+		// Now, go through the list, adn load the other object type.
+		if (this._rels) {
+			var dao = this;
+			$.each(resultSet, function(idx, val) {
+				completeData.call(dao, val);
+			});
+
+		}
+
+		return resultSet;
+
+	}
+
+	SimpleRelDao.prototype.save = function(objectType, data) {
+		// make sure to remove the direct object reference (we expect the rel_id at this point)
+		// TODO: probably need to extra the id from the object reference in case there is now rel_id
+		if (this._rels) {
+			var tmpPropName;
+			for (var i = 0, l = this._rels.length; i < l; i++) {
+				tmpPropName = this._rels[i];
+				if (typeof data[tmpPropName] !== "undefined") {
+					delete data[tmpPropName];
+				}
+			}
+		}
+
+		var result = this._super.save.call(this, objectType, data);
+		return completeData.call(this, result);
+	}
+
+	// ------ Private Helpers ------ //
+	// complete the data with the related objects
+	function completeData(val) {
+		var rels = this._rels;
+		var rel, propIdName, obj, objId;
+		for (var i = 0; i < rels.length; i++) {
+			rel = rels[i];
+			propIdName = this._relDic[rel];
+			objId = val[propIdName];
+			if (typeof objId !== "undefined") {
+				obj = brite.dm.get(rel, objId);
+				if (typeof obj !== "undefined" && obj != null) {
+					val[rel] = obj;
+				}
+			}
+		}
+		return val;
+	}
+
+	// ------ /Private Helpers ------ //
+
+	/**
+	 * SimpleRelDao is a Many to Many Dao that will do a best attempt to join the entities it is responsible to join. <br />
+	 *
+	 * This is only for development, as there is not storage behind it.
+	 *
+	 * @param {Array}  store (optional) Array of json object representing each data item
+	 */
+	brite.dao.SimpleRelDao = SimpleRelDao;
+	
+})(jQuery);
+
+// ------ jQuery DAO Helper ------ //
+(function($) {
+
+	/**
+	 * Return the objRef {id,type,$element} (or a list of such) of the closest html element matching the objType match the data-obj_type.<br />
+	 * If no objType, then, return the first objRef of the closest html element having a data-obj_type. <br />
+	 *
+	 * @param {String} objType (optional) the object table
+	 * @return null if not found, single object with {id,type,$element} if only one jQuery object, a list of such if this jQuery contain multiple elements.
+	 */
+	$.fn.bObjRef = function(objType) {
+		var resultList = [];
+
+		var obj = null;
+		// iterate and process each matched element
+		this.each( function() {
+			var $this = $(this);
+			var $sObj;
+			if (objType) {
+				$sObj = $this.closest("[data-obj_type='" + objType + "']");
+			} else {
+				$sObj = $this.closest("[data-obj_type]");
+			}
+			if ($sObj.length > 0) {
+				var objRef = {
+					type: $sObj.attr("data-obj_type"),
+					id: $sObj.attr("data-obj_id"),
+					$element: $sObj
+				}
+				resultList.push(objRef);
+			}
+		});
+
+		if (resultList.length === 0) {
+			return null;
+		} else if (resultList.length === 1) {
+			return resultList[0];
+		} else {
+			return resultList;
+		}
+
+	};
+
+})(jQuery);
+
+// ------ /jQuery DAO Helper ------ //
+var brite = brite || {};
+
+/**
+ * @namespace brite.event convenient touch/mouse event helpers.
+ */
+brite.event = brite.event || {};
+
+// ------ brite event helpers ------ //
+(function($){
+	var hasTouch = brite.ua.hasTouch();
+	/**
+     * if it is a touch device, populate the event.pageX and event.page& from the event.touches[0].pageX/Y
+     * @param {jQuery Event} e the jquery event object 
+     */
+    brite.event.fixTouchEvent = function(e){
+        if (hasTouch) {
+            var oe = e.originalEvent;
+			
+            if (oe.touches.length > 0) {
+                e.pageX = oe.touches[0].pageX;
+                e.pageY = oe.touches[0].pageY;
+            }
+        }
+        
+        return e;
+    }
+    
+    /**
+     * Return the event {pageX,pageY} object for a jquery event object (will take the touches[0] if it is a touch event)
+     * @param {jQuery Event} e the jquery event object
+     */
+    brite.event.eventPagePosition = function(e){
+		if (e.originalEvent && e.originalEvent.touches){
+			pageX = e.originalEvent.touches[0].pageX;
+			pageY = e.originalEvent.touches[0].pageY;
+		}else{
+			pageX = e.pageX;
+			pageY = e.pageY;
+		}
+		return {
+			pageX: pageX,
+			pageY: pageY
+		}
+    }
+})(jQuery);
+
+// ------ /brite event helpers ------ //
+
+// bTouch
+(function($){
+
+    /**
+     * This event either bind a touchend if available, otherwise, bind a click.
+     * In future iterations, we might want make the "touch" case a little bit more advanced (checking touchstart/touchend are from the same element and no drag was initiated)
+     * @param {Function or String} arg0 can be the function or a "delegate" selector string if we want this event to be delegated
+     * @param {Function} arg1 if arg0 is the del
+     */
+    $.fn.bTouch = function(arg0, arg1){
+        var callback = arg1 || arg0;
+        var delegate = (arg1) ? arg0 : null;
+        
+        var eventName = (brite.ua.hasTouch()) ? "touchend" : "click";
+		
+        return this.each(function(){
+            var $this = $(this);
+            
+            if (delegate) {
+                $this.delegate(delegate, eventName, callback);
+            }
+            else {
+                $this.bind(eventName, callback);
+            }
+            
+            
+        });
+        
+    };
+    
+    // samplePlugin default options
+    $.fn.bTouch.defaults = {};
+    
+})(jQuery);
+
+
+
+
+
+// bDrag & sDrop
+(function($){
+	var BDRAGSTART="bdragstart",BDRAGDRAG="bdrag",BDRAGEND="bdragend";
+	
+	var BDRAGENTER="bdragenter",BDRAGOVER="bdragover",BDRAGLEAVE="bdragleave",BDROP="bdrop";
+	
+	
+    /**
+     *
+     * Options optional method implementation:
+     *
+     *
+     */
+    var mouseDragEvents = {
+        start: "mousedown",
+        drag: "mousemove",
+        end: "mouseup"
+    }
+    
+    var touchDragEvents = {
+        start: "touchstart",
+        drag: "touchmove",
+        end: "touchend"
+    }
+    
+    
+    
+    
+    
+    /**
+     * Drag event for mouse and touch based user agents. 
+     * 
+     * This fires bdragstart, bdrag, and bdragend events on the dragged element, 
+     * and bdragenter, bdragleave, bdrop on the "overElement" if the opts.draggable is set to true. If opts.draggable is omitted or false, then
+     * only the events on the dragged element will be fired. 
+     * 
+     * See code sample at /test/test_brite.event.02.bDrag.html for more infor 
+     *
+     * @param {String} delegate [optional] if present, this will do a delegate (not implemented yet)
+     * @param {Object}   opts [optional] options and handlers
+     * @param {Boolean}  opts.draggable [default false] tell if the element is draggable
+     * @param {String|Function}   opts.helper [default 'original'] if opts.draggable is true, this will determine the strategy for the drag helper. 
+     *                               Can be 'clone' 'original' or a function
+     * @param {Function} opts.start=function(event,dragExtra) [optional] will be called when the drag is initiated (map to the 'bdragstart' event)
+     * @param {Function} opts.drag=function(event,dragExtra) [optional] will be called for every drag event (map to the 'bdrag' event)
+     * @param {Function} opts.end=function(event,dragExtra) [optional] called on mouseUp or touch end (map to the 'bdragend' event)
+     * @param {Number} dragExtra.pageX the current pageX 
+     * @param {Number} dragExtra.pageY the current pageY 
+     * @param {Number} dragExtra.startPageX the pageX from the drag start
+     * @param {Number} dragExtra.startPageY the pageY from the drag start
+     * @param {Number} dragExtra.deltaPageX the delta between the current pageX and the last one (from the previous drag event)
+     * @param {Number} dragExtra.deltaPageY the delta between the current pageY and the last one (from the previous drag event)
+     * @param {DOMElement} dragExtra.overElement this is for bdrag and bdragend event, and represent the over element (the drop over element) if the opts.draggable was set to true
+     * @param {DOMElement} dragExtra.helperElement this is the element that is used for the drag effect. Could be the same as the draggable element, or a clone or custom element.
+     */
+    $.fn.bDrag = function(delegate, opts){
+        var options = opts || delegate;
+        var delegate = (opts) ? delegate : null;
+        var hasTouch = brite.ua.hasTouch();
+        
+        options = $.extend({},$.fn.bDrag.defaults,options);
+        
+        var dragEvents = (hasTouch) ? touchDragEvents : mouseDragEvents;
+        
+        //for now, support the not delegatable way
+        // iterate and process each matched element
+        return this.each(function(){
+            var $this = $(this); // jQuery object for this element
+            if (delegate == null) {
+				(options.start)?$this.bind(BDRAGSTART,options.start):null;
+				(options.drag)?$this.bind(BDRAGDRAG,options.drag):null;
+				(options.end)?$this.bind(BDRAGEND,options.end):null;
+							
+                $this.bind(dragEvents.start, function(e){
+                   	handleDragEvent.call(this,e,options);
+                });
+            }else{
+
+				(options.start)?$this.delegate(delegate,BDRAGSTART,options.start):null;
+				(options.drag)?$this.delegate(delegate,BDRAGDRAG,options.drag):null;
+				(options.end)?$this.delegate(delegate,BDRAGEND,options.end):null;	
+				
+				$this.delegate(delegate,dragEvents.start,function(e){
+					handleDragEvent.call(this,e,options);
+				})
+			}
+        });
+        
+		// Handler the event
+		// "this" of this function will be the element
+        function handleDragEvent(e, options){
+			//var $this = $(this);
+            
+            var $elem = $(this);
+            
+            var $document = $(document);
+            var id = "_" + brite.util.uuid(7);
+            
+            var dragStarted = false;
+            var startEvent = e;
+            var startPagePos = brite.event.eventPagePosition(startEvent);
+            
+            
+            
+            
+            // create the $helper if it is a draggable event.
+            var $helper; 
+			
+			// so far, we prevent the default, otherwise, we see some text select which can be of a distracting
+			e.preventDefault();
+			
+			// drag
+            $document.bind(dragEvents.drag + "." + id, function(e){
+            	
+            	// if the drag has not started, check if we need to start it
+            	if (!dragStarted){
+            		var currentPagePos = brite.event.eventPagePosition(e);
+            		
+            		// if the diff > threshold, then, we start the drag
+            		if (Math.abs(startPagePos.pageX - currentPagePos.pageY) > options.threshold){
+            			dragStarted = true;
+            			//create the bDragCtx
+            			$elem.data("bDragCtx",{});
+            			
+            			
+						if (options.draggable === true){
+							if ($.isFunction(options.helper)){
+								$helper = $(options.helper.call($elem.get(0)));
+							}else if (options.helper === "original"){
+								
+								$helper = $elem;
+							}else if (options.helper === "clone"){
+								$helper = $elem.clone();
+								// make sure to remove the DOMElement ID
+								$helper.attr("id",null);
+								$helper.css("position","absolute");
+								var elemPos = $elem.offset();
+								$helper.css({
+									top: elemPos.top,
+									left: elemPos.left
+								})
+								//todo need to allow configurable helper parent (right now, it is the body)
+								$("body").append($helper);					
+							}
+						}   
+						var dragStartExtra = buildDragExtra(startEvent,$elem,$helper,BDRAGSTART);
+            			$elem.trigger(BDRAGSTART,[dragStartExtra]);
+            		}
+            	}
+            	
+            	if (dragStarted){
+					var dragExtra = buildDragExtra(e,$elem,$helper,BDRAGDRAG);
+					
+	                var overElem;
+	                if (options.draggable === true){
+	                  overElem = findOverElement($helper,dragExtra);
+	                  dragExtra.overElement = overElem;
+	                }				
+					
+	            	$elem.trigger(BDRAGDRAG,[dragExtra]);
+	            	
+	            	if (options.draggable === true){
+	            		moveElement($helper,dragExtra);
+	            		var dropExtra = buildDropExtra($elem,$helper);
+						triggerDropEventOnOverElement(BDRAGOVER,e,$elem,overElem,dropExtra);
+					}
+					
+					// since we create "meta events" we consume this one	
+	                e.preventDefault();
+					e.stopPropagation();
+				}
+            });
+            
+            // drag end
+            $document.bind(dragEvents.end + "." + id, function(e){
+            	if (dragStarted){
+	                var extra = buildDragExtra(e,$elem,$helper,BDRAGEND);
+	                var dropExtra; 
+	                
+	                var overElem;
+	                if (options.draggable === true){
+	                  overElem = findOverElement($helper,extra);
+	                  extra.overElement = overElem;
+	                }
+	                 
+	            	$elem.trigger(BDRAGEND,[extra]);
+					
+					// get the $overElem
+					if (options.draggable === true){
+						moveElement($helper,extra);
+						dropExtra = buildDropExtra($elem,$helper);
+						triggerDropEventOnOverElement(BDROP,e,$elem,overElem,dropExtra);
+						
+						if (!$helper.is($elem)){
+							$helper.remove();
+						}
+					}				
+					
+					// delete the dragContext
+					$elem.data("bDragCtx",null);
+					
+					// since we create "meta events" we consume this one
+	                e.preventDefault();
+					e.stopPropagation();
+				}
+				
+				// unbind the document event
+	            $(document).unbind(dragEvents.drag + "." + id);
+	            $(document).unbind(dragEvents.end + "." + id);
+					
+            });
+        }
+        
+    }
+    
+    
+    function moveElement($elem,extra){
+    	var boxPos = $elem.position();
+		$elem.css({
+			left:boxPos.left + extra.deltaPageX,
+			top:boxPos.top + extra.deltaPageY
+		});
+
+    }
+    
+    /**
+     * Trigger the drop event on the overElement
+     */
+    function triggerDropEventOnOverElement(eventType,event,$elem,overElem,dropExtra){
+    	var $overElem = $(overElem);
+    	
+    	//get the prevOverElem and do the enter/leave
+    	var bDragCtx = $elem.data("bDragCtx");
+    	var prevOverElem = bDragCtx.overElem;
+    	var bdragenterEvent, bdragleaveEvent;
+    	// if there are no prevOverElem then, we enter the new one
+    	if (typeof prevOverElem === "undefined" ){
+    		bdragenterEvent = $.Event(event);
+    		bdragenterEvent.target = overElem;
+    		bdragenterEvent.type = BDRAGENTER;
+    		$overElem.trigger(bdragenterEvent,dropExtra);
+    	}
+    	// if the new one and old one does not match, then, we need to leave the old elem and enter the new one
+    	else if (prevOverElem != overElem){
+    		//leave the old one
+    		bdragleaveEvent = $.Event(event);
+    		bdragleaveEvent.target = prevOverElem;
+    		bdragleaveEvent.type = BDRAGLEAVE;
+    		$(prevOverElem).trigger(bdragleaveEvent,dropExtra);
+    		
+    		//enter the new enter event
+    		bdragenterEvent = $.Event(event);
+    		bdragenterEvent.target = overElem;
+    		bdragenterEvent.type = BDRAGENTER;
+    		$overElem.trigger(bdragenterEvent,dropExtra);
+    		
+    	}
+    	
+    	bDragCtx.overElem = overElem;
+		//create the event requested
+		var bdragEvent = $.Event(event);
+		bdragEvent.target = overElem;
+		bdragEvent.type = eventType;
+		$overElem.trigger(bdragEvent,dropExtra);    	
+    }
+    
+    function findOverElement($elem,extra){
+    	$elem.hide();
+		var overElem = document.elementFromPoint(extra.pageX,extra.pageY);
+		$elem.show();
+		return overElem;
+    }
+	
+	/**
+	 * Build the extra event info for the drag event. 
+	 */
+	function buildDragExtra(event,$elem,$helper,dragType){
+		brite.event.fixTouchEvent(event);
+		var hasTouch = brite.ua.hasTouch();
+		var extra = {
+			eventSource: event,
+			pageX: event.pageX,
+			pageY: event.pageY			
+		};
+		
+		if ($helper){
+			extra.helperElement = $helper.get(0);
+		}
+		
+		var oe = event.originalEvent;
+		if (hasTouch){
+			extra.touches = oe.touches;
+		}
+		
+		var bDragCtx = $elem.data("bDragCtx");
+		
+		if (dragType === BDRAGSTART){
+			bDragCtx.startPageX = extra.startPageX = extra.pageX;
+			bDragCtx.startPageY = extra.startPageY = extra.pageY;
+			
+			bDragCtx.lastPageX = bDragCtx.startPageX = extra.startPageX;
+			bDragCtx.lastPageY = bDragCtx.startPageY = extra.startPageY;
+		}else if (dragType === BDRAGEND){
+			// because, on iOs, the touchEnd event does not have the .touches[0].pageX
+			extra.pageX = bDragCtx.lastPageX;
+			extra.pageY = bDragCtx.lastPageY;
+		}
+		
+		extra.startPageX = bDragCtx.startPageX;
+		extra.startPageY = bDragCtx.startPageY;
+		extra.deltaPageX = extra.pageX - bDragCtx.lastPageX;
+		extra.deltaPageY = extra.pageY - bDragCtx.lastPageY;
+		
+		bDragCtx.lastPageX = extra.pageX;
+		bDragCtx.lastPageY = extra.pageY;
+		return extra;
+	}
+	
+	/**
+	 * Build the extra event info for the drop event
+	 */
+	function buildDropExtra($elem,$helper){
+		var extra = {};
+		extra.draggableElement = $elem.get(0);
+		extra.helperElement = $helper.get(0);
+		return extra;
+	}
+    
+    $.fn.bDrag.defaults = {
+    	draggable: false,
+    	helper: 'original',
+    	threshold: 5
+    	
+    }
+})(jQuery);
+

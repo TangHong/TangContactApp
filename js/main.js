@@ -2,7 +2,7 @@ var ipad = ipad || {};
 
 (function($) {
 
-	// --------- UI Component --------- //
+	// --------- Component Interface Implementation --------- //
 	function main() {
 		
 	}
@@ -23,6 +23,7 @@ var ipad = ipad || {};
 		
 		var $contactContainer = $(".contact-container");
 		
+	 	//var webDataBase = new ipad.SQLiteDao();
 		
 		brite.display("ContactList",null,{
 			parent:$contactContainer
@@ -32,9 +33,9 @@ var ipad = ipad || {};
 			parent:$(".contacts-home")
 		})
 		
-		//$e.delegate(".showContacCreate","click",function() {
-		//	brite.display("ContactCreate");
-		//})
+		$e.delegate(".showContacCreate","click",function() {
+			brite.display("ContactCreate");
+		})
 		
 			
 		$(".wizard-bar-item").click(function(){
@@ -43,6 +44,19 @@ var ipad = ipad || {};
 			})
 		
 	}
+	// --------- /Component Interface Implementation --------- //
+
+	// --------- Component Private Methods --------- //
 	
-	ipad.main = main;
+	// --------- /Component Private Methods --------- //
+	
+	// --------- Component Registration --------- //
+    brite.registerComponent("main", {
+        emptyParent : true,
+        loadTemplate: true
+    }, function() {
+        return new main();
+    });	
+	// --------- /Component Registration --------- //
+	
 })(jQuery);

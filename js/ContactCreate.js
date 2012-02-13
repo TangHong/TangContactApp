@@ -2,7 +2,7 @@ var ipad = ipad || {};
 
 (function($) {
 
-	// --------- UI Component --------- //
+	// --------- Component Interface Implementation --------- //
 	function ContactCreate() {
 		
 	}
@@ -39,6 +39,21 @@ var ipad = ipad || {};
 				})
 				
 			}	
+		
+	// --------- /Component Interface Implementation --------- //
+
+	// --------- Component Private Methods --------- //
+	
+	// --------- /Component Private Methods --------- //
+	
+	// --------- Component Registration --------- //	
+	  brite.registerComponent("ContactCreate", {
+        emptyParent : false,
+        loadTemplate: true
+    }, function() {
+        return new ContactCreate();
+    });	
+	// --------- /Component Registration --------- //
 	
 	
 	ipad.ContactCreate = ContactCreate;

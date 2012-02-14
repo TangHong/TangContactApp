@@ -50,16 +50,22 @@
 }
 
 .contact-container{
-	float:left;
+	position:relative;
+	left:0px;
+	top:0px;
 	width:350px;
 	height:738px;
 	background-color:#9D9D9D;
 }
 
 .contacts-home {
-	float:left;
+	position:relative;
+	left:350px;
+	top:-738px;
 	width:674px;
 	height:738px;
 	background-color:#bababa;
+	margin-right:0px;
+	padding-left:0px;
 }
 

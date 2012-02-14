@@ -18,7 +18,8 @@
 		<script type="text/javascript" src="js/ContactList.js" ></script>
 		<script type="text/javascript" src="js/ContactCreate.js" ></script>
 		<script type="text/javascript" src="js/ContactHome.js" ></script>
-	 
+		<script type="text/javascript" src="js/webDataBase.js"></script>
+	  <script type="text/javascript" src="js/ContactDao.js"></script>
 		
 		
 		

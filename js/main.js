@@ -23,7 +23,8 @@ var ipad = ipad || {};
 		
 		var $contactContainer = $(".contact-container");
 		
-	 	//var webDataBase = new ipad.SQLiteDao();
+		
+		
 		
 		brite.display("ContactList",null,{
 			parent:$contactContainer

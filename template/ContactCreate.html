@@ -1,10 +1,31 @@
 <script type="text/html" id="ipad-contact">
 	<div class="Dialog-container">
-		 <div class="DialogPrompt">
-	        <h2>Please enter username</h2>
-	       	<input type="text" name="username" class="username"/>
-	        <div class="DialogPrompt-buttonbar">
-	 						<button class="ok">OK</button>
+		 <div class="ContactCreate" data-obj_id="{{if contact}}${contact.id}{{/if}}">
+	        <h2>
+	        	{{if contact}}
+	        		Update
+	        	{{else}}
+	        		Create
+	        	{{/if}}
+	        		 Contact</h2>
+	        <div class="input-label">name:</div>
+	       	<div class="input-value">
+	       		<input type="text" name="name" class="name" value="{{if contact}}${contact.name}{{/if}}"/>
+	       	</div>
+	       	<div class="input-label">phone:</div>
+	       	<div class="input-value">
+	       		<input type="text" name="phone" class="phone" value="{{if contact}}${contact.phone}{{/if}}"/>
+	       	</div>
+	       	<div class="input-label">description:</div>
+	       	<div class="input-value">
+	       		<textarea name="description" class="description">{{if contact}}${contact.description}{{/if}}</textarea>
+	       	</div>
+	        <div class="ContactCreate-buttonbar">
+	        {{if contact}}
+	 						<button class="update">update</button>
+	 				{{else}}
+	 					  <button class="ok">OK</button>
+	 				{{/if}}	
 	            <button class="cancel">Cancel</button>
 	        </div>
 	    </div>

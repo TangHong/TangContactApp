@@ -37,8 +37,12 @@ var ipad = ipad || {};
 				
 		$e.delegate(".del","click",function() {
 				var id = $(this).closest(".con").attr("data_obj-id");
-				brite.dm.remove("Contact",id);
-				$(this).closest(".con").fadeOut("slow");
+				brite.dm.remove("Contact",id).done(function() {
+					brite.display("main",null, {
+						parent : $workspace
+					});		
+				});
+				//$(this).closest(".con").fadeOut("slow");
 			})
 		
 		$e.delegate(".star","click",function() {
@@ -51,6 +55,16 @@ var ipad = ipad || {};
 				}
 			
 		})
+		
+		$e.delegate(".edit","click",function() {
+			var objId = $(this).closest(".con").attr("data_obj-id");
+			brite.dm.get("Contact",objId).done(function(contact) {
+				brite.display("ContactCreate",contact, {
+						parent : $(document).find("#container")
+				});
+			});
+		})
+		
 		
 	}
 	

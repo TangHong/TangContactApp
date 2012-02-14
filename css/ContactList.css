@@ -8,9 +8,17 @@
 }
 .text{
 	text-align:center;
-	width:250px;
+	width:217px;
 	display: inline-table;
 	font-family:Arial;
+}
+.edit{
+	font-size:1.0em;
+	font-family:Arial;
+	display: inline-table;
+	width:26px;
+	color:red;
+	cursor:pointer;
 }
 .del{
 	display: inline-table;
@@ -18,6 +26,7 @@
 	width:20px;
 	height:20px;
 	margin-bottom:4px;
+	cursor:pointer;
 }
 .star-not-sel{
 	float:right;
@@ -26,6 +35,7 @@
 	display: inline-table;
 	background-image:url(../images/star.png);
 	margin-top:5px;
+	cursor:pointer;
 }
 .star-sel{
 	float:right;
@@ -34,6 +44,7 @@
 	display: inline-table;
 	background-image:url(../images/star-light.png);
 	margin-top:5px;
+	cursor:pointer;
 }
 .search{
 	background:-webkit-gradient(linear,left top,left bottom, from(#F3F5F7), to(#A8ADBA)) ; 

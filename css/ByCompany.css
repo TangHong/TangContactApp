@@ -1,8 +1,8 @@
-.ContactHome{
+.ByCompany{
 	border-left:1px solid #AAAAAA;
 }
 
-.ContactHome-header{
+.ByCompany-header{
 	background:-webkit-gradient(linear,0 0,0 100%, from(#F5F6F8), to(#A8ADBA)) ; 
 	text-align:center;
 	color:#717880;
@@ -30,23 +30,23 @@
 	display: inline-table;
 	padding:25px 0 0 100px;	
 }
-.ContactHome .image{
+.ByCompany .image{
 	display: inline-table;
 	margin-bottom:-5px;	
 }
-.ContactHome .name{
+.ByCompany .name{
 	font-family:Arial;
 	margin:0 0 0 10px;
 	display: inline-table;
 	width:100px;
 }
-.ContactHome .description{
+.ByCompany .description{
 	font-size:0.5em;
 	font-family:Arial;
 	color:#5E84AB;
 	margin:10px 0 0 40px;
 }
-.ContactHome .del{
+.ByCompany .del{
 	cursor:pointer;
 	font-size:0.5em;
 	font-family:Arial;

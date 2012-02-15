@@ -58,7 +58,6 @@
 					selSql += " and " + k + "='" + filters[k] + "'";
 				}
 			}
-			console.log(selSql);
 			transaction.executeSql((selSql), [],function(transaction, results){
 				dfd.resolve(parseRows2Json(results.rows));
 			});

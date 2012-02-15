@@ -31,6 +31,7 @@
 	padding-top:5px;
 	color:#FFFFFF;
 	font-family:Arial;
+	cursor:pointer;
 }
 .wizard-sel{
 	background:-webkit-gradient(linear,0 0,0 50%, from(#7D8186), to(#4A4B4C)) ;
@@ -56,15 +57,16 @@
 	width:350px;
 	height:738px;
 	background-color:#9D9D9D;
+	overflow:auto;
 }
 
-.contacts-home {
+.right-container {
 	position:relative;
 	left:350px;
 	top:-738px;
 	width:674px;
 	height:738px;
-	background-color:#bababa;
+	background-color:#D5D8DE;
 	margin-right:0px;
 	padding-left:0px;
 }

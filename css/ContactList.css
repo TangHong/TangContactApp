@@ -1,18 +1,18 @@
-.con{
+.ContactList .con{
 	width:350px;
 	background:-webkit-gradient(linear,left top,left bottom, from(#F4F4F4), to(#D0D0D0)) ; 
 }
 
-.image{
+.ContactList .image{
 	display: inline-table;
 }
-.text{
+.ContactList .text{
 	text-align:center;
 	width:217px;
 	display: inline-table;
 	font-family:Arial;
 }
-.edit{
+.ContactList .edit{
 	font-size:1.0em;
 	font-family:Arial;
 	display: inline-table;
@@ -20,7 +20,7 @@
 	color:red;
 	cursor:pointer;
 }
-.del{
+.ContactList .del{
 	display: inline-table;
 	background-image:url(../images/delete.png);
 	width:20px;
@@ -28,7 +28,7 @@
 	margin-bottom:4px;
 	cursor:pointer;
 }
-.star-not-sel{
+.ContactList .star-not-sel{
 	float:right;
 	width:24px;
 	height:23px;
@@ -37,7 +37,7 @@
 	margin-top:5px;
 	cursor:pointer;
 }
-.star-sel{
+.ContactList .star-sel{
 	float:right;
 	width:24px;
 	height:23px;
@@ -46,28 +46,28 @@
 	margin-top:5px;
 	cursor:pointer;
 }
-.search{
+.ContactList .search{
 	background:-webkit-gradient(linear,left top,left bottom, from(#F3F5F7), to(#A8ADBA)) ; 
 	height:38px;
 	padding-top:10px;
 	border-top:1px solid #838A9A;
 	border-bottom:1px solid #838A9A;
 }
-.search-input{
+.ContactList .search-input{
 	height:30px;
 	width:300px;
 	border-radius:15px;
 	margin:0px 25px 0px 25px;
 	background:#FFFFFF;
 }
-.input{
+.ContactList .input{
 	height:25px;
 	width:220px;
 	outline:none;	
 	border:0px;
 	display: inline-table;
 }
-.magnifier{
+.ContactList .magnifier{
 	width:20px;
 	height:20px;
 	margin-bottom:-6px;

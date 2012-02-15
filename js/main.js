@@ -31,7 +31,7 @@ var ipad = ipad || {};
 		});
 		
 		brite.display("ContactHome",null,{
-			parent:$(".contacts-home")
+			parent:$(".right-container")
 		})
 		
 		$e.delegate(".showContacCreate","click",function() {
@@ -40,6 +40,17 @@ var ipad = ipad || {};
 		
 			
 		$(".wizard-bar-item").click(function(){
+			var wizardId = $(this).attr("wizard-id");
+			if(wizardId == 1) {
+				brite.display("ContactHome",null,{
+					parent:$(".right-container")
+				})
+			}else if(wizardId == 2) {
+				//brite.display("ByCompany",null,{
+				//	parent:$(".right-container")
+				//})
+			}else if(wizardId == 3) {
+			}
 			$(".wizard-bar-item").removeClass("wizard-sel")
 			$(this).addClass("wizard-sel");
 			})

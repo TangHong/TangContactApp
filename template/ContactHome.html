@@ -2,10 +2,34 @@
 	<div class="ContactHome">
 		<div class="ContactHome-header">Contacts Home</div>
 		<div class="favorite-contact">Favorites Contacts</div>
+		{{if homeList.favorites.length>0}}
+			{{each homeList.favorites}}
+				<div class="con-bar" data_obj-id="${id}">
+										<div class="image"><img src="../images/face.png"></div>
+										<div class="name">${name}</div>
+										<div class="description">${description}</div>
+										<div data-action="fav-del" class="del">delete</div>
+				</div>
+			{{/each}}
+		{{else}}
 			<p>no contact!</p>
-			<div><button class="fav-add">Add</button></div>
+		{{/if}}
+			
+		<div><button class="fav-add">Add</button>Please click star in the contact list to choose what you want to add!</div>
 		<div class="favorite-contact">Recent Contacts</div>
-			<p>no contact!</p>
-			<div><button class="rec-add">Add</button></div>
+			{{if homeList.recent.length>0}}
+			{{each homeList.recent}}
+				<div class="con-bar" data_obj-id="${id}">
+										<div class="image"><img src="../images/face.png"></div>
+										<div class="name">${name}</div>
+										<div class="description">${description}</div>
+										<div data-action="rec-del" class="del">delete</div>
+				</div>
+			{{/each}}
+			{{else}}
+				<p>no contact!</p>
+			{{/if}}
+
+			<div><button class="rec-add">Add</button>Please click star in the contact list to choose what you want to add!</div>
 	</div>
 </script>

@@ -6,13 +6,21 @@
 .ContactList .image{
 	display: inline-table;
 }
+
+.ContactList .image >img{
+	margin-top:3px;
+	height:31px;
+	width:31px;
+}
 .ContactList .text{
 	text-align:center;
-	width:217px;
+	width:215px;
 	display: inline-table;
 	font-family:Arial;
+	margin-bottom:7px;
 }
 .ContactList .edit{
+	margin-bottom:7px;
 	font-size:1.0em;
 	font-family:Arial;
 	display: inline-table;
@@ -25,7 +33,7 @@
 	background-image:url(../images/delete.png);
 	width:20px;
 	height:20px;
-	margin-bottom:4px;
+	margin-bottom:7px;
 	cursor:pointer;
 }
 .ContactList .star-not-sel{

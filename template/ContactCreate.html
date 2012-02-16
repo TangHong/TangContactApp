@@ -8,6 +8,16 @@
 	        		Create
 	        	{{/if}}
 	        		 Contact</h2>
+	        		 
+	        <div class="image-container">
+	        	<img class="preview" src="{{if contact}}{{if contact.image}}${contact.image}{{else}}../images/face.png{{/if}}{{else}}../images/face.png{{/if}}">
+	        </div>
+	        
+	        <div class="file-upload">	
+	        	<input type="file" class="upload" id="upload"/>
+	        </div>
+	        
+	        <br/>
 	        <div class="input-label">name:</div>
 	       	<div class="input-value">
 	       		<input type="text" name="name" class="name" value="{{if contact}}${contact.name}{{/if}}"/>

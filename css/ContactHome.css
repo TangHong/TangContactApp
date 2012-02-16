@@ -26,13 +26,18 @@
 }
 .con-bar{
 	height:100px;
-	width:300px;
+	width:500px;
 	display: inline-table;
 	padding:25px 0 0 100px;	
 }
 .ContactHome .image{
 	display: inline-table;
 	margin-bottom:-5px;	
+}
+
+.ContactHome img{
+	width:31px;
+	height:31px;	
 }
 .ContactHome .name{
 	font-family:Arial;

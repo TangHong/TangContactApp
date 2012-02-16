@@ -22,6 +22,15 @@ var ipad = ipad || {};
 			var $e = c.$element;
 			
 			$e.find(".ok").click(function(){
+				var company = {};
+				company.name = $e.find(".name")[0].value;
+				
+				brite.dm.create("Company",company).done(function(){
+					$e.remove();
+					brite.display("ByCompany",null,{
+						parent:$(".right-container")
+					});
+				});	
 				
 			})
 			

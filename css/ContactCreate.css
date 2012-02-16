@@ -28,6 +28,25 @@
 .ContactCreate .ContactCreate-buttonbar {
 	text-align: center;
 }
+
+.ContactCreate .file-upload {
+	margin-left:160px;
+}
+
+.ContactCreate .preview {
+	height:30px;
+	width:30px;
+}
+
+.ContactCreate .image-container {
+	float: left;
+  width: 150px;
+  height:30px;
+  text-align: right;
+  margin-bottom:10px;
+  display: block;
+	opacity: .7;	
+}
 .input-label{
 	float: left;
   width: 150px;

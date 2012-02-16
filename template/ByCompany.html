@@ -1,7 +1,18 @@
 <script id="ipad-ByCompany" type="text/html">
 	<div class="ByCompany">
 		<div class="ContactHome-header">By Company</div>
-			<p>No Company!</p>
+		{{if companyList.length>0}}
+				{{each companyList}}
+					<div class="company-container"  data_obj-id="${id}">
+						<div class="company-header">${name}</div>
+						<p>No Contact!</p>
+						<div><button class="add">Add</button></div>
+					</div>	
+				{{/each}}
+		{{else}}
+				<p>No Company!</p>
+		{{/if}}	
 			<div><button class="create">Create New Company</button></div>	
 	</div>
 </script>
+

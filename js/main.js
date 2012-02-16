@@ -46,9 +46,9 @@ var ipad = ipad || {};
 					parent:$(".right-container")
 				})
 			}else if(wizardId == 2) {
-				//brite.display("ByCompany",null,{
-				//	parent:$(".right-container")
-				//})
+				brite.display("ByCompany",null,{
+					parent:$(".right-container")
+				})
 			}else if(wizardId == 3) {
 			}
 			$(".wizard-bar-item").removeClass("wizard-sel")

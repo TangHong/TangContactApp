@@ -5,7 +5,7 @@
 		{{if homeList.favorites.length>0}}
 			{{each homeList.favorites}}
 				<div class="con-bar" data_obj-id="${id}">
-										<div class="image"><img src="../images/face.png"></div>
+										<div class="image"><img src="{{if image}}${image}{{else}}../images/face.png{{/if}}"></div>
 										<div class="name">${name}</div>
 										<div class="description">${description}</div>
 										<div data-action="fav-del" class="del">delete</div>
@@ -20,7 +20,7 @@
 			{{if homeList.recent.length>0}}
 			{{each homeList.recent}}
 				<div class="con-bar" data_obj-id="${id}">
-										<div class="image"><img src="../images/face.png"></div>
+										<div class="image"><img src="{{if image}}${image}{{else}}../images/face.png{{/if}}"></div>
 										<div class="name">${name}</div>
 										<div class="description">${description}</div>
 										<div data-action="rec-del" class="del">delete</div>

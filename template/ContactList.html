@@ -10,7 +10,7 @@
 			<div class="ipad-contactList">
 					{{if contactList.length>0}}
 						{{each contactList}}
-							<div class="con" data_obj-id="${id}">
+							<div class="con" data_obj-id="${id}" description="${description}">
 								<div class="image"><img {{if image}}src="${image}"{{else}}src="../images/face.png"{{/if}}></div>
 								<div class="text">${name} </div>
 								<div class="edit">Edit</div>

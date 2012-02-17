@@ -16,5 +16,5 @@ var _SQLiteDb;
 
 	brite.registerDao("Contact",new brite.dao.SQLiteDao("contacts","id",[{column:'name',dtype:'TEXT'},{column:'phone',dtype:'TEXT'},{column:'description',dtype:'TEXT'},{column:'favorite',dtype:'Tinyint'},{column:'recent',dtype:'Tinyint'},{column:'image',dtype:'TEXT'}]));
 	brite.registerDao("Company",new brite.dao.SQLiteDao("company","id",[{column:'name',dtype:'TEXT'},{column:'member_id',dtype:'TEXT'}]));
-	//brite.registerDao("Category",new brite.dao.SQLiteDao("category","id",[{column:'name',dtype:'TEXT'}]));
+	brite.registerDao("Category",new brite.dao.SQLiteDao("category","id",[{column:'name',dtype:'TEXT'},{column:'member_id',dtype:'TEXT'}]));
 })(jQuery);

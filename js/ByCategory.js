@@ -3,44 +3,43 @@ var ipad = ipad || {};
 (function($) {
 
 	// --------- Component Interface Implementation --------- //
-	function ByCompany() {
+	function ByCategory() {
 		
 	}
 
-	ByCompany.prototype.create = function(data, config) {
+	ByCategory.prototype.create = function(data, config) {
 		var c = this;
-		var companyList = [];
+		var categoryList = [];
 	
-		return brite.dm.list("Company").pipe(function(company){
-			c.company = company;
-			//getMember(company);		
-			var html = $("#ipad-ByCompany").render({companyList:company});
+		return brite.dm.list("Category").pipe(function(category){
+			c.category = category;	
+			var html = $("#ipad-ByCategory").render({categoryList:category});
 			var $e = $(html);
 			return $e;
 		});
 	}
 	
-	ByCompany.prototype.init = function(data, config) {
+	ByCategory.prototype.init = function(data, config) {
 		var c = this;
 		var $e = c.$element;
 		
 		
 	}
 	
-	ByCompany.prototype.postDisplay = function() {
+	ByCategory.prototype.postDisplay = function() {
 		var c = this;
 		var $e = c.$element;
 		
-		for(i=0;i<c.company.length;i++) {
-			if(c.company[i].member_id){
-				var ids = c.company[i].member_id.split(",");
+		for(i=0;i<c.category.length;i++) {
+			if(c.category[i].member_id){
+				var ids = c.category[i].member_id.split(",");
 				for(j=0;j<ids.length;j++) {
 					var $contactList = $e.parents().bFindComponents("ContactList")[0].$element;
 					var $con = $contactList.find("[data_obj-id='"+ids[j]+"']");
 					var contact =	divToData($con);
 					var conBar = $("#ipad-contact").render(contact);
 					var $c = $(conBar);
-					$e.find(".con-container[data_obj-id='"+c.company[i].id+"']").append($c);
+					$e.find(".con-container[data_obj-id='"+c.category[i].id+"']").append($c);
 					}
 				
 			}
@@ -52,22 +51,23 @@ var ipad = ipad || {};
 			}
 		})
 		
+		
 		$e.delegate(".create","click",function() {
-			brite.display("CompanyCreate",null, {
+			brite.display("CategoryCreate",null, {
 						parent : $(document).find("#container")
 			});	
 		})
 		
 		$e.delegate(".add","click",function() {
-			var company = {};
-			var companyId = $(this).closest(".company-container").attr("data_obj-id");
+			var category = {};
+			var categoryId = $(this).closest(".category-container").attr("data_obj-id");
 			
 			var member_id = [];
 			
-			for(i=0;i<c.company.length;i++) {
-				if(c.company[i].id == companyId){
-					if(c.company[i].member_id != "" && c.company[i].member_id != null) {
-						member_id = c.company[i].member_id.split(",");
+			for(i=0;i<c.category.length;i++) {
+				if(c.category[i].id == categoryId){
+					if(c.category[i].member_id != "" && c.category[i].member_id != null) {
+						member_id = c.category[i].member_id.split(",");
 					}
 				}
 			};
@@ -75,15 +75,15 @@ var ipad = ipad || {};
 			var $contactList = $e.parents().bFindComponents("ContactList")[0].$element;	
 			$contactList.find(".star-sel").each(function() {
 				var objId = $(this).closest(".con").attr("data_obj-id");
-				if(!isExist.call(c,objId,companyId)){
+				if(!isExist.call(c,objId,categoryId)){
 					member_id.push(objId);
 				}
 				
 			});
-			company.member_id	= member_id;
+			category.member_id	= member_id;
 		
-			brite.dm.update("Company",companyId,company).done(function() {
-				brite.display("ByCompany",null,{
+			brite.dm.update("Category",categoryId,category).done(function() {
+				brite.display("ByCategory",null,{
 					parent:$(".right-container")
 				})
 			})
@@ -91,31 +91,30 @@ var ipad = ipad || {};
 		
 		$e.delegate(".del","click",function() {
 			var objId = $(this).closest(".con-bar").attr("data_obj-id");
-			var companyId = $(this).closest(".con-container").attr("data_obj-id");
-			var member_id = deleteId.call(c,objId,companyId);
-			var company = {};
-			company.member_id = member_id;
-			brite.dm.update("Company",companyId,company).done(function() {
-				brite.display("ByCompany",null,{
+			var categoryId = $(this).closest(".con-container").attr("data_obj-id");
+			var member_id = deleteId.call(c,objId,categoryId);
+			var category = {};
+			category.member_id = member_id;
+			brite.dm.update("Category",categoryId,category).done(function() {
+				brite.display("ByCategory",null,{
 					parent:$(".right-container")
 				})
 			})
 		})
-		
-		
 		
 	}
 	
 	// --------- /Component Interface Implementation --------- //
 
 	// --------- Component Private Methods --------- //
-	function isExist(contactId,companyId) {
+	
+	function isExist(contactId,categoryId) {
 		var c = this;
-		var company = c.company;
-		for(i=0;i<company.length;i++) {
-			if(company[i].id == companyId){
-				if(company[i].member_id !="" && company[i].member_id != null){
-					var ids = company[i].member_id.split(",");
+		var category = c.category;
+		for(i=0;i<category.length;i++) {
+			if(category[i].id == categoryId){
+				if(category[i].member_id !="" && category[i].member_id != null){
+					var ids = category[i].member_id.split(",");
 					for(j=0;j<ids.length;j++) {
 						if(ids[j]==contactId) {
 							return true;	
@@ -137,13 +136,13 @@ var ipad = ipad || {};
 		return contact;
 	}
 	
-	function deleteId(id,companyId) {
+	function deleteId(id,categoryId) {
 		var c = this;
 		var ids = [];
-		for(i=0;i<c.company.length;i++) {
-			if(c.company[i].id == companyId) {
-				if(c.company[i].member_id != "" && c.company[i].member_id != null) {
-					var member_id = c.company[i].member_id.split(",");
+		for(i=0;i<c.category.length;i++) {
+			if(c.category[i].id == categoryId) {
+				if(c.category[i].member_id != "" && c.category[i].member_id != null) {
+					var member_id = c.category[i].member_id.split(",");
 					for(j=0;j<member_id.length;j++) {
 						if(member_id[j] != id) {
 							ids.push(member_id[j]);	
@@ -159,11 +158,11 @@ var ipad = ipad || {};
 	// --------- /Component Private Methods --------- //
 	
 	// --------- Component Registration --------- //
-	brite.registerComponent("ByCompany", {
+	brite.registerComponent("ByCategory", {
         emptyParent : true,
         loadTemplate: true
     }, function() {
-        return new ByCompany();
+        return new ByCategory();
     });	
 	// --------- /Component Registration --------- //
 })(jQuery);

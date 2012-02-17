@@ -3,31 +3,31 @@ var ipad = ipad || {};
 (function($) {
 
 	// --------- Component Interface Implementation --------- //
-	function CompanyCreate() {
+	function CategoryCreate() {
 		
 	}
 
-	CompanyCreate.prototype.create = function(data, config) {
-		var html = $("#ipad-CompanyCreate").render();
+	CategoryCreate.prototype.create = function(data, config) {
+		var html = $("#ipad-CategoryCreate").render();
 	  var $e = $(html);
 		return $e;
 	}
 	
-	CompanyCreate.prototype.init = function(data, config) {
+	CategoryCreate.prototype.init = function(data, config) {
 
 	}
 	
-	CompanyCreate.prototype.postDisplay = function() {
+	CategoryCreate.prototype.postDisplay = function() {
 			var c = this;
 			var $e = c.$element;
 			
 			$e.find(".ok").click(function(){
-				var company = {};
-				company.name = $e.find(".name")[0].value;
+				var category = {};
+				category.name = $e.find(".name")[0].value;
 				
-				brite.dm.create("Company",company).done(function(){
+				brite.dm.create("Category",category).done(function(){
 					$e.remove();
-					brite.display("ByCompany",null,{
+					brite.display("ByCategory",null,{
 						parent:$(".right-container")
 					});
 				});	
@@ -40,7 +40,6 @@ var ipad = ipad || {};
 			
 			$e.find(".cancel").click(function(){
 				$e.remove();
-				
 			})
 			
 				
@@ -53,16 +52,16 @@ var ipad = ipad || {};
 	// --------- /Component Private Methods --------- //
 	
 	// --------- Component Registration --------- //	
-	  brite.registerComponent("CompanyCreate", {
+	  brite.registerComponent("CategoryCreate", {
         emptyParent : false,
         loadTemplate: true
     }, function() {
-        return new CompanyCreate();
+        return new CategoryCreate();
     });	
 	// --------- /Component Registration --------- //
 	
 	
-	ipad.CompanyCreate = CompanyCreate;
+	ipad.CategoryCreate = CategoryCreate;
 	
 	
 })(jQuery);

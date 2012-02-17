@@ -50,6 +50,9 @@ var ipad = ipad || {};
 					parent:$(".right-container")
 				})
 			}else if(wizardId == 3) {
+				brite.display("ByCategory",null,{
+					parent:$(".right-container")
+				})
 			}
 			$(".wizard-bar-item").removeClass("wizard-sel")
 			$(this).addClass("wizard-sel");

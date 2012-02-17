@@ -1,21 +1,21 @@
-<script id="ipad-ByCompany" type="text/html">
-	<div class="ByCompany">
-		<div class="ContactHome-header">By Company</div>
-		{{if companyList.length>0}}
-				{{each companyList}}
-					<div class="company-container"  data_obj-id="${id}">
-						<div class="company-header">${name}</div>
+<script id="ipad-ByCategory" type="text/html">
+	<div class="ByCategory">
+		<div class="ContactHome-header">By Category</div>
+		{{if categoryList.length>0}}
+			{{each categoryList}}
+				<div class="category-container"  data_obj-id="${id}">
+						<div class="category-header">${name}</div>
 						<div class="con-container" data_obj-id="${id}"></div>
 						{{if member_id =="" || member_id == null}}
 							<p>No Contact!</p>
 						{{/if}}
 						<div><button class="add">Add</button></div>	
 					</div>
-				{{/each}}
+			{{/each}}
 		{{else}}
-				<p>No Company!</p>
-		{{/if}}	
-			<div><button class="create">Create New Company</button></div>	
+			<p>No Category!</p>
+		{{/if}}
+			<div><button class="create">Create New Category</button></div>	
 	</div>
 </script>
 
@@ -27,3 +27,5 @@
 										<div class="del">delete</div>
 	</div>
 </script>
+
+

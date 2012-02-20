@@ -4,16 +4,19 @@
 		{{if companyList.length>0}}
 				{{each companyList}}
 					<div class="company-container"  data_obj-id="${id}">
-						<div class="company-header">${name}</div>
+						<div class="company-header">${name} 
+							<span class="delete-company">Delete</span>
+							<span class="edit-company">Edit</span>
+						</div>
 						<div class="con-container" data_obj-id="${id}"></div>
 						{{if member_id =="" || member_id == null}}
-							<p>No Contact!</p>
+							<p class="no-content">No Contact!</p>
 						{{/if}}
 						<div><button class="add">Add</button></div>	
 					</div>
 				{{/each}}
 		{{else}}
-				<p>No Company!</p>
+				<p class="no-content">No Company!</p>
 		{{/if}}	
 			<div><button class="create">Create New Company</button></div>	
 	</div>
@@ -23,7 +26,7 @@
 	<div class="con-bar" data_obj-id="${id}">
 										<div class="image"><img src="{{if image}}${image}{{else}}../images/face.png{{/if}}"></div>
 										<div class="name">${name}</div>
-										<div class="description">${description}</div>
+										<div class="description">{{if description}}${description}{{else}}no description{{/if}}</div>
 										<div class="del">delete</div>
 	</div>
 </script>

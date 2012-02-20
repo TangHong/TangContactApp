@@ -15,6 +15,24 @@
 	border-bottom:1px solid #848B9B;
 } 
 
+.edit-company{
+	cursor:pointer;
+	color:red;
+	margin:6px 5px 0 10px;
+	float:right;
+	font-weight:normal;
+	font-size:0.8em;
+}
+
+.delete-company{
+	cursor:pointer;
+	color:red;
+	margin:6px 5px 0 10px;
+	float:right;
+	font-weight:normal;
+	font-size:0.8em;
+}
+
 .company-header{
 	background:-webkit-gradient(linear,0 0,0 100%, from(#91A0AC), to(#B5BFC6)); 
 	border:1px solid #848B9B;

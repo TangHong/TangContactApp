@@ -102,6 +102,24 @@ var ipad = ipad || {};
 			})
 		})
 		
+		$e.delegate(".edit-category","click",function() {
+			var objId = $(this).closest(".category-container").attr("data_obj-id");
+			brite.dm.get("Category",objId).done(function(category) {
+				brite.display("CategoryCreate",category, {
+						parent : $("#container")
+				});
+			});
+		})
+
+		$e.delegate(".delete-category","click",function() {
+			var objId = $(this).closest(".category-container").attr("data_obj-id");
+			brite.dm.remove("Category",objId).done(function() {
+				brite.display("ByCategory",null,{
+					parent:$(".right-container")
+				})
+			})
+		})
+
 	}
 	
 	// --------- /Component Interface Implementation --------- //

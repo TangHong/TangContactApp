@@ -45,14 +45,17 @@ var ipad = ipad || {};
 				brite.display("ContactHome",null,{
 					parent:$(".right-container")
 				})
+				ipad.history.pushCmd("ShowHome");
 			}else if(wizardId == 2) {
 				brite.display("ByCompany",null,{
 					parent:$(".right-container")
 				})
+				ipad.history.pushCmd("ShowByCompany");
 			}else if(wizardId == 3) {
 				brite.display("ByCategory",null,{
 					parent:$(".right-container")
 				})
+				ipad.history.pushCmd("ShowByCategory");
 			}
 			$(".wizard-bar-item").removeClass("wizard-sel")
 			$(this).addClass("wizard-sel");

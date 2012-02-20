@@ -24,6 +24,26 @@
 	color:#FFFFFF;
 	font-size:1.2em;
 }
+
+.edit-category{
+	cursor:pointer;
+	color:red;
+	margin:6px 5px 0 10px;
+	float:right;
+	font-weight:normal;
+	font-size:0.8em;
+}
+
+.delete-category{
+	cursor:pointer;
+	color:red;
+	margin:6px 5px 0 10px;
+	float:right;
+	font-weight:normal;
+	font-size:0.8em;
+}
+
+
 .con-bar{
 	height:100px;
 	width:300px;

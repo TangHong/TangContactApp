@@ -8,8 +8,9 @@ var ipad = ipad || {};
 	}
 
 	CategoryCreate.prototype.create = function(data, config) {
-		var html = $("#ipad-CategoryCreate").render();
-	  var $e = $(html);
+		var category = data;
+		var html = $("#ipad-CategoryCreate").render({"category":category});
+		var $e = $(html);
 		return $e;
 	}
 	
@@ -35,7 +36,16 @@ var ipad = ipad || {};
 			})
 			
 			$e.find(".update").click(function() {
-				
+				var category = {};
+				var objId = $e.find(".CategoryCreate").attr("data-obj_id");
+				category.name = $e.find(".name")[0].value;
+
+				brite.dm.update("Category",objId,category).done(function(){
+					$e.remove();
+					brite.display("ByCategory",null, {
+						parent:$(".right-container")
+					});	
+				});
 			})
 			
 			$e.find(".cancel").click(function(){

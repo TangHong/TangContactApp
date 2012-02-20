@@ -26,7 +26,6 @@
 		<script type="text/javascript" src="js/ByCompany.js" ></script>
 		<script type="text/javascript" src="js/CategoryCreate.js" ></script>
 		<script type="text/javascript" src="js/ByCategory.js" ></script>
-		<script type="text/javascript" src="js/StateManager.js"></script>
 	 
 		
 		

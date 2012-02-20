@@ -10,7 +10,7 @@ var ipad = ipad || {};
 	ContactCreate.prototype.create = function(data, config) {
 		var contact = data;
 		var html = $("#ipad-ContactCreate").render({"contact":contact});
-	  var $e = $(html);
+		var $e = $(html);
 		return $e;
 	}
 	
@@ -82,9 +82,7 @@ var ipad = ipad || {};
 			})
 			
 			$e.find(".cancel").click(function(){
-					brite.display("main",null, {
-					parent : $workspace
-					});
+					$e.remove();
 				})
 				
 			}	

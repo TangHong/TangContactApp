@@ -8,8 +8,9 @@ var ipad = ipad || {};
 	}
 
 	CompanyCreate.prototype.create = function(data, config) {
-		var html = $("#ipad-CompanyCreate").render();
-	  var $e = $(html);
+		var company = data;
+		var html = $("#ipad-CompanyCreate").render({"company":company});
+		var $e = $(html);
 		return $e;
 	}
 	
@@ -35,12 +36,21 @@ var ipad = ipad || {};
 			})
 			
 			$e.find(".update").click(function() {
+				var company = {};
+				var objId = $e.find(".CompanyCreate").attr("data-obj_id");
+				company.name = $e.find(".name")[0].value;
+
+				brite.dm.update("Company",objId,company).done(function(){
+					$e.remove();
+					brite.display("ByCompany",null, {
+						parent:$(".right-container")
+					});	
+				});
 				
 			})
 			
 			$e.find(".cancel").click(function(){
 				$e.remove();
-				
 			})
 			
 				

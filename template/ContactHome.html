@@ -7,12 +7,12 @@
 				<div class="con-bar" data_obj-id="${id}">
 										<div class="image"><img src="{{if image}}${image}{{else}}../images/face.png{{/if}}"></div>
 										<div class="name">${name}</div>
-										<div class="description">${description}</div>
+										<div class="description">{{if description}}${description}{{else}}no description{{/if}}</div>
 										<div data-action="fav-del" class="del">delete</div>
 				</div>
 			{{/each}}
 		{{else}}
-			<p>no contact!</p>
+			<p class="no-content">No Contact!</p>
 		{{/if}}
 			
 		<div><button class="fav-add">Add</button>Please click star in the contact list to choose what you want to add!</div>
@@ -22,12 +22,12 @@
 				<div class="con-bar" data_obj-id="${id}">
 										<div class="image"><img src="{{if image}}${image}{{else}}../images/face.png{{/if}}"></div>
 										<div class="name">${name}</div>
-										<div class="description">${description}</div>
+										<div class="description">{{if description}}${description}{{else}}no description{{/if}}</div>
 										<div data-action="rec-del" class="del">delete</div>
 				</div>
 			{{/each}}
 			{{else}}
-				<p>no contact!</p>
+				<p class="no-content">No Contact!</p>
 			{{/if}}
 
 			<div><button class="rec-add">Add</button>Please click star in the contact list to choose what you want to add!</div>

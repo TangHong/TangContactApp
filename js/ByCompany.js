@@ -102,7 +102,23 @@ var ipad = ipad || {};
 			})
 		})
 		
-		
+		$e.delegate(".edit-company","click",function() {
+			var objId = $(this).closest(".company-container").attr("data_obj-id");
+			brite.dm.get("Company",objId).done(function(company) {
+				brite.display("CompanyCreate",company, {
+						parent : $(document).find("#container")
+				});
+			});
+		})
+
+		$e.delegate(".delete-company","click",function() {
+			var objId = $(this).closest(".company-container").attr("data_obj-id");
+			brite.dm.remove("Company",objId).done(function() {
+				brite.display("ByCompany",null,{
+					parent:$(".right-container")
+				})
+			})
+		})
 		
 	}
 	

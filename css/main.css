@@ -64,3 +64,14 @@
 	
 }
 
+.no-content {
+	opacity:0.7;
+	font-size:1.0em;
+	font-family:Arial;
+	line-height:30px;
+	height:30px;
+	margin:0px;
+	background:#C4E8FD;
+	color:#777777;
+	text-align:center;
+}

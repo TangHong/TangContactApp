@@ -27,7 +27,38 @@ var ipad = ipad || {};
 		var c = this;
 		var $e = c.$element;
 	
-	
+		
+		$e.delegate(".search-content","input",function() {
+			var searchContent = $e.find(".search-content").val();
+			if($e.find(".con").length>0) {
+				if(searchContent != null && searchContent != "") {
+					var regExp=new RegExp("^"+searchContent.trim(),"i");
+					$e.find(".con").each(function() {
+						var name = $(this).find(".text").text();
+						if(!regExp.test(name)){
+							$(this).addClass("not-display");
+							$(this).removeClass("display");
+						}else {
+							$(this).addClass("display");
+							$(this).removeClass("not-display");
+						}
+					});
+					
+				}else {
+					$e.find(".con").addClass("display");
+					$e.find(".con").removeClass("not-display");
+				}
+				
+				if($e.find(".display").length == 0) {
+					if($e.find("[name='no-search-result']").length == 0) {
+						$e.find(".ipad-contactList").append("<p name='no-search-result' class='no-content'>No Search Result!</p>");	
+					}
+				}else {
+					$e.find("p[name='no-search-result']").remove()					
+				};
+			}
+		})
+		
 		$e.delegate(".button-add","click",function(){
 				brite.display("ContactCreate",null, {
 						parent : $(document).find("#container")

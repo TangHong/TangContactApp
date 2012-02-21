@@ -68,7 +68,7 @@
 	margin:0px 25px 0px 25px;
 	background:#FFFFFF;
 }
-.ContactList .input{
+.ContactList .search-content{
 	height:25px;
 	width:220px;
 	outline:none;	
@@ -82,4 +82,8 @@
 	margin-left:10px;
 	display: inline-table;
 	background-image:url(../images/magnifier.png);
+}
+
+.not-display {
+	display:none;	
 }

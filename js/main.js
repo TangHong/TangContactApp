@@ -45,17 +45,17 @@ var ipad = ipad || {};
 				brite.display("ContactHome",null,{
 					parent:$(".right-container")
 				})
-				ipad.history.pushCmd("ShowHome");
+				ipad.history.pushCmd("showHome");
 			}else if(wizardId == 2) {
 				brite.display("ByCompany",null,{
 					parent:$(".right-container")
 				})
-				ipad.history.pushCmd("ShowByCompany");
+				ipad.history.pushCmd("showByCompany");
 			}else if(wizardId == 3) {
 				brite.display("ByCategory",null,{
 					parent:$(".right-container")
 				})
-				ipad.history.pushCmd("ShowByCategory");
+				ipad.history.pushCmd("showByCategory");
 			}
 			$(".wizard-bar-item").removeClass("wizard-sel")
 			$(this).addClass("wizard-sel");

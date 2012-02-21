@@ -109,6 +109,7 @@ var ipad = ipad || {};
 						parent : $("#container")
 				});
 			});
+			ipad.history.pushCmd("showCategoryCreate",objId);
 		})
 
 		$e.delegate(".delete-category","click",function() {

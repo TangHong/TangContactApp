@@ -1,8 +1,8 @@
 <script type="text/html" id="ipad-ContactCreate">
 	<div class="Dialog-container">
-		 <div class="ContactCreate" data-obj_id="{{if contact}}${contact.id}{{/if}}">
+		 <div class="ContactCreate" data-obj_id="{{#if contact}}{{contact.id}}{{/if}}">
 	        <h2>
-	        	{{if contact}}
+	        	{{#if contact}}
 	        		Update
 	        	{{else}}
 	        		Create
@@ -10,7 +10,7 @@
 	        		 Contact</h2>
 	        		 
 	        <div class="image-container">
-	        	<img class="preview" src="{{if contact}}{{if contact.image}}${contact.image}{{else}}../images/face.png{{/if}}{{else}}../images/face.png{{/if}}">
+	        	<img class="preview" src="{{#if contact}}{{#if contact.image}}{{contact.image}}{{else}}../images/face.png{{/if}}{{else}}../images/face.png{{/if}}">
 	        </div>
 	        
 	        <div class="file-upload">	
@@ -20,18 +20,18 @@
 	        <br/>
 	        <div class="input-label">name:</div>
 	       	<div class="input-value">
-	       		<input type="text" name="name" class="name" value="{{if contact}}${contact.name}{{/if}}"/>
+	       		<input type="text" name="name" class="name" value="{{#if contact}}{{contact.name}}{{/if}}"/>
 	       	</div>
 	       	<div class="input-label">phone:</div>
 	       	<div class="input-value">
-	       		<input type="text" name="phone" class="phone" value="{{if contact}}${contact.phone}{{/if}}"/>
+	       		<input type="text" name="phone" class="phone" value="{{#if contact}}{{contact.phone}}{{/if}}"/>
 	       	</div>
 	       	<div class="input-label">description:</div>
 	       	<div class="input-value">
-	       		<textarea name="description" class="description">{{if contact}}${contact.description}{{/if}}</textarea>
+	       		<textarea name="description" class="description">{{#if contact}}{{contact.description}}{{/if}}</textarea>
 	       	</div>
 	        <div class="ContactCreate-buttonbar">
-	        {{if contact}}
+	        {{#if contact}}
 	 						<button class="update">update</button>
 	 				{{else}}
 	 					  <button class="ok">OK</button>

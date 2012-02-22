@@ -9,11 +9,13 @@ var ipad = ipad || {};
 	
 	ContactList.prototype.create = function(data,config) {
 		var c = this;
-		var contactList = [];
 		
 		return brite.dm.list("Contact").pipe(function(contacts){
 			c.contacts = contacts;
-			var html = $("#ipad-ContactList").render({contactList:contacts});
+			var context = {contactList:contacts}
+			var source = $("#ipad-ContactList").html();
+			var template = Handlebars.compile(source);
+			var html = template(context);
 			var $e = $(html);
 			return $e;
 		});

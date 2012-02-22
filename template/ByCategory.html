@@ -1,17 +1,17 @@
 <script id="ipad-ByCategory" type="text/html">
 	<div class="ByCategory">
 		<div class="ContactHome-header">By Category</div>
-		{{if categoryList.length>0}}
-			{{each categoryList}}
-				<div class="category-container"  data_obj-id="${id}">
-						<div class="category-header">${name}
+		{{#if categoryList.length}}
+			{{#each categoryList}}
+				<div class="category-container"  data_obj-id="{{id}}">
+						<div class="category-header">{{name}}
 							<span class="delete-category">Delete</span>
 							<span class="edit-category">Edit</span>
 						</div>
-						<div class="con-container" data_obj-id="${id}"></div>
-						{{if member_id =="" || member_id == null}}
+						<div class="con-container" data_obj-id="{{id}}"></div>
+						{{#unless member_id}}
 							<p class="no-content">No Contact!</p>
-						{{/if}}
+						{{/unless}}
 						<div><button class="add">Add</button></div>	
 					</div>
 			{{/each}}
@@ -23,10 +23,10 @@
 </script>
 
 <script id="ipad-contact" type="text/html">
-	<div class="con-bar" data_obj-id="${id}">
-										<div class="image"><img src="{{if image}}${image}{{else}}../images/face.png{{/if}}"></div>
+	<div class="con-bar" data_obj-id="{{id}}">
+										<div class="image"><img src="{{#if image}}{{image}}{{else}}../images/face.png{{/if}}"></div>
 										<div class="name">${name}</div>
-										<div class="description">{{if description}}${description}{{else}}no description{{/if}}</div>
+										<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
 										<div class="del">delete</div>
 	</div>
 </script>

@@ -13,8 +13,11 @@ var ipad = ipad || {};
 	
 		return brite.dm.list("Company").pipe(function(company){
 			c.company = company;
-			//getMember(company);		
-			var html = $("#ipad-ByCompany").render({companyList:company});
+			
+			var context = {companyList:company};
+			var source = $("#ipad-ByCompany").html();
+			var template = Handlebars.compile(source);
+			var html = template(context);
 			var $e = $(html);
 			return $e;
 		});
@@ -38,8 +41,12 @@ var ipad = ipad || {};
 					var $contactList = $e.parents().bFindComponents("ContactList")[0].$element;
 					var $con = $contactList.find("[data_obj-id='"+ids[j]+"']");
 					var contact =	divToData($con);
-					var conBar = $("#ipad-contact").render(contact);
+					var context = contact;
+					var source = $("#ipad-contact").html();
+					var template = Handlebars.compile(source);
+					var conBar = template(context);
 					var $c = $(conBar);
+				
 					$e.find(".con-container[data_obj-id='"+c.company[i].id+"']").append($c);
 					}
 				

@@ -9,7 +9,11 @@ var ipad = ipad || {};
 
 	CompanyCreate.prototype.create = function(data, config) {
 		var company = data;
-		var html = $("#ipad-CompanyCreate").render({"company":company});
+		
+		var context = {"company":company};
+		var source = $("#ipad-CompanyCreate").html();
+		var template = Handlebars.compile(source);
+		var html = template(context);
 		var $e = $(html);
 		return $e;
 	}

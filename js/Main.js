@@ -8,8 +8,10 @@ var ipad = ipad || {};
 	}
 
 	main.prototype.create = function(data, config) {
-		var html = $("#ipad-main").render();
-	    var $e = $(html);
+		var source   = $("#ipad-main").html();
+		var template = Handlebars.compile(source);	
+		var html = template();
+	  var $e = $(html);
 		return $e;
 	}
 	

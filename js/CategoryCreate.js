@@ -9,7 +9,11 @@ var ipad = ipad || {};
 
 	CategoryCreate.prototype.create = function(data, config) {
 		var category = data;
-		var html = $("#ipad-CategoryCreate").render({"category":category});
+		
+		var context = {"category":category};
+		var source = $("#ipad-CategoryCreate").html();
+		var template = Handlebars.compile(source);
+		var html = template(context);
 		var $e = $(html);
 		return $e;
 	}

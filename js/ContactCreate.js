@@ -9,7 +9,11 @@ var ipad = ipad || {};
 
 	ContactCreate.prototype.create = function(data, config) {
 		var contact = data;
-		var html = $("#ipad-ContactCreate").render({"contact":contact});
+		
+		var context = {"contact":contact};
+		var source = $("#ipad-ContactCreate").html();
+		var template = Handlebars.compile(source);
+		var html = template(context);
 		var $e = $(html);
 		return $e;
 	}

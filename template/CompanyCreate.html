@@ -1,8 +1,8 @@
 <script type="text/html" id="ipad-CompanyCreate">
 	<div class="Dialog-container">
-		 <div class="CompanyCreate" data-obj_id="{{if company}}${company.id}{{/if}}">
+		 <div class="CompanyCreate" data-obj_id="{{#if company}}{{company.id}}{{/if}}">
 	        <h2>
-		{{if company}}
+		{{#if company}}
 			Update
 		{{else}}
 			Create
@@ -10,11 +10,11 @@
 			Company</h2>
 	        <div class="input-label">name:</div>
 	       	<div class="input-value">
-	       		<input type="text" name="name" class="name" value="{{if company}}${company.name}{{/if}}"/>
+	       		<input type="text" name="name" class="name" value="{{#if company}}{{company.name}}{{/if}}"/>
 	       	</div>
 	       
 	        <div class="CompanyCreate-buttonbar">
-			{{if company}}
+			{{#if company}}
 	 				<button class="update">update</button>
 	 			{{else}}
 	 				<button class="ok">OK</button>

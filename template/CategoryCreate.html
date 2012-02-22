@@ -1,8 +1,8 @@
 <script type="text/html" id="ipad-CategoryCreate">
 	<div class="Dialog-container">
-		 <div class="CategoryCreate" data-obj_id="{{if category}}${category.id}{{/if}}">
+		 <div class="CategoryCreate" data-obj_id="{{#if category}}{{category.id}}{{/if}}">
 	        <h2>
-				{{if category}}
+				{{#if category}}
 					Update
 				{{else}}
 					Create
@@ -11,10 +11,10 @@
 			</h2>
 	        <div class="input-label">name:</div>
 	       	<div class="input-value">
-	       		<input type="text" name="name" class="name" value="{{if category}}${category.name}{{/if}}"/>
+	       		<input type="text" name="name" class="name" value="{{#if category}}{{category.name}}{{/if}}"/>
 	       	</div>
 	        <div class="CategoryCreate-buttonbar">
-			{{if category}}
+			{{#if category}}
 	 				<button class="update">update</button>
 	 			{{else}}
 	 				<button class="ok">OK</button>

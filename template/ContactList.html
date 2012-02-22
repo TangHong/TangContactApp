@@ -8,19 +8,19 @@
 				</div>
 		   </div>
 			<div class="ipad-contactList">
-					{{if contactList.length>0}}
-						{{each contactList}}
-							<div class="con" data_obj-id="${id}" description="${description}">
-								<div class="image"><img {{if image}}src="${image}"{{else}}src="../images/face.png"{{/if}}></div>
-								<div class="text">${name} </div>
-								<div class="edit">Edit</div>
-								<div class="del"><span></span></div>
-								<div class="star-not-sel star"><span></span></div>
-							</div>
-						{{/each}}
-					{{else}}	
-						<p class="no-content">No Contact!</p>
-					{{/if}}	
+					{{#if contactList.length}}
+							{{#each contactList}}
+								<div class="con" data_obj-id="{{id}}" description="{{description}}">
+									<div class="image"><img {{#if image}}src="{{image}}"{{else}}src="../images/face.png"{{/if}}></div>
+									<div class="text">{{name}} </div>
+									<div class="edit">Edit</div>
+									<div class="del"><span></span></div>
+									<div class="star-not-sel star"><span></span></div>
+								</div>
+							{{/each}}
+					{{else}}
+							<p class="no-content">No Contact!</p>
+					{{/if}}								
 			</div>
 			<div><button class="button-add">Add</button></div>
 		</div>

@@ -63,7 +63,7 @@ var ipad = ipad || {};
 		
 		$e.delegate(".button-add","click",function(){
 				brite.display("ContactCreate",null, {
-						parent : $(document).find("#container")
+						parent : $workspace
 					});
 				})
 				
@@ -93,7 +93,7 @@ var ipad = ipad || {};
 			var objId = $(this).closest(".con").attr("data_obj-id");
 			brite.dm.get("Contact",objId).done(function(contact) {
 				brite.display("ContactCreate",contact, {
-						parent : $(document).find("#container")
+						parent :$workspace
 				});
 			});
 		})

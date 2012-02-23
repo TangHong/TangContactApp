@@ -59,13 +59,19 @@ var ipad = ipad || {};
 			}
 		})
 		
+		var options = {};
+		options.title = "Add Contacts";		
+		options.content = "Please click star in the contact list to choose what you want to add!";
+		$e.find('.add').popover(options);
+		
 		$e.delegate(".create","click",function() {
 			brite.display("CompanyCreate",null, {
-						parent : $(document).find("#container")
+						parent : $workspace
 			});	
 		})
 		
 		$e.delegate(".add","click",function() {
+			$(".popover").remove();
 			var company = {};
 			var companyId = $(this).closest(".company-container").attr("data_obj-id");
 			
@@ -97,6 +103,7 @@ var ipad = ipad || {};
 		})
 		
 		$e.delegate(".del","click",function() {
+			$(".popover").remove();
 			var objId = $(this).closest(".con-bar").attr("data_obj-id");
 			var companyId = $(this).closest(".con-container").attr("data_obj-id");
 			var member_id = deleteId.call(c,objId,companyId);
@@ -113,7 +120,7 @@ var ipad = ipad || {};
 			var objId = $(this).closest(".company-container").attr("data_obj-id");
 			brite.dm.get("Company",objId).done(function(company) {
 				brite.display("CompanyCreate",company, {
-						parent : $(document).find("#container")
+						parent : $workspace
 				});
 			});
 		})

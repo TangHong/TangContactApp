@@ -1,26 +1,39 @@
 <script type="text/html" id="ipad-CategoryCreate">
 	<div class="Dialog-container">
-		 <div class="CategoryCreate" data-obj_id="{{#if category}}{{category.id}}{{/if}}">
-	        <h2>
+		<div class="DialogPromptGlass"> </div>
+		<div class="CategoryCreate" data-obj_id="{{#if category}}{{category.id}}{{/if}}">
+			 <div class="DialogPrompt">
+		        <h2>
+					{{#if category}}
+						Update
+					{{else}}
+						Create
+					{{/if}}
+						Category
+				</h2>
+		       
+		       <form class="form-horizontal">
+		       	<fieldset>
+		       		
+		       		<div class="control-group">
+		       			<label class="control-label" for="name">Name:</label>
+			       		<div class="controls">
+			       			<input name="name" type="text" class="input-xlarge name" id="name" value="{{#if category}}{{category.name}}{{/if}}"/>
+			       		</div>
+		       		</div>
+		       		
+		       	</fieldset>
+		       </form>
+		       	 	
+		        <div class="DialogPrompt-buttonbar">
 				{{#if category}}
-					Update
-				{{else}}
-					Create
-				{{/if}}
-					Category
-			</h2>
-	        <div class="input-label">name:</div>
-	       	<div class="input-value">
-	       		<input type="text" name="name" class="name" value="{{#if category}}{{category.name}}{{/if}}"/>
-	       	</div>
-	        <div class="CategoryCreate-buttonbar">
-			{{#if category}}
-	 				<button class="update">update</button>
-	 			{{else}}
-	 				<button class="ok">OK</button>
-	 		{{/if}}	
-	            <button class="cancel">Cancel</button>
-	        </div>
-	    </div>
-   </div>
+		 				<button class="update">update</button>
+		 			{{else}}
+		 				<button class="ok">OK</button>
+		 		{{/if}}	
+		            <button class="cancel">Cancel</button>
+		        </div>
+		    </div>
+	  </div>
+  </div>
 </script>

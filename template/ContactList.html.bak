@@ -12,7 +12,7 @@
 					{{#if contactList.length}}
 							{{#each contactList}}
 								<div class="con" data_obj-id="{{id}}" description="{{description}}">
-									<div class="image"><img {{#if image}}src="{{image}}"{{else}}src="../img/face.png"{{/if}}></div>
+									<div class="image"><img {{#if image}}src="{{image}}"{{else}}src="../images/face.png"{{/if}}></div>
 									<div class="text">{{name}} </div>
 									
 									<i class="icon-pencil edit"></i>

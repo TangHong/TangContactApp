@@ -5,17 +5,21 @@
         <title>Ipad Contact App</title>
 		
 		<link rel="stylesheet" type="text/css" href="css/Main.css" />
-		<link rel="stylesheet" type="text/css" href="css/ContactCreate.css" />
+		<link rel="stylesheet" type="text/css" href="css/DialogPrompt.css" />
 		<link rel="stylesheet" type="text/css" href="css/ContactList.css" />
 		<link rel="stylesheet" type="text/css" href="css/ContactHome.css" />
-		<link rel="stylesheet" type="text/css" href="css/CompanyCreate.css" />
 		<link rel="stylesheet" type="text/css" href="css/ByCompany.css" />
 		<link rel="stylesheet" type="text/css" href="css/ByCategory.css" />
-		<link rel="stylesheet" type="text/css" href="css/CategoryCreate.css" />
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" />
+		
 
-		<script type="text/javascript" src="js/jquery.min.js" ></script>
+
+		<script type="text/javascript" src="js/jquery-1.7.1.js" ></script>
 		<script type="text/javascript" src="js/jquery.render.min.js"></script>
 		<script type="text/javascript" src="js/handlebars-0.9.0.pre.5.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/bootstrap-popover.js"></script>
 		<script type="text/javascript" src="js/brite.js"></script>
 		<script type="text/javascript" src="js/brite.dao.SQLiteDao.js"></script>
 		<script type="text/javascript" src="js/sd-daos.js"></script>	
@@ -34,11 +38,11 @@
 		
     </head>
     <body>
-    	<div  id="container">
+    	<div id="workspace">
 		
 		</div> 
 		<script type="text/javascript">
-			var $workspace = $("body").find("#container");
+			var $workspace = $("body").find("#workspace");
 			
 			$(document).ready(function(){
 				brite.display("main",null, {

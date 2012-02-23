@@ -16,7 +16,7 @@
 		       	
 		       		<div class="control-group">
 		       			<label class="control-label" for="image">
-		       				<img class="preview" src="{{#if contact}}{{#if contact.image}}{{contact.image}}{{else}}../img/face.png{{/if}}{{else}}../images/face.png{{/if}}">
+		       				<img class="preview" src="{{#if contact}}{{#if contact.image}}{{contact.image}}{{else}}../images/face.png{{/if}}{{else}}../images/face.png{{/if}}">
 		       			</label>
 			       		<div class="controls">
 			       			<input type="file" class="upload" id="upload"/>

@@ -14,26 +14,17 @@
 }
 .ContactList .text{
 	text-align:center;
-	width:215px;
+	width:230px;
 	display: inline-table;
 	font-family:Arial;
 	margin-bottom:7px;
 }
 .ContactList .edit{
-	margin-bottom:7px;
-	font-size:1.0em;
-	font-family:Arial;
-	display: inline-table;
-	width:26px;
-	color:red;
+	margin:-10px 3px 0px 5px;
 	cursor:pointer;
 }
 .ContactList .del{
-	display: inline-table;
-	background-image:url(../images/delete.png);
-	width:20px;
-	height:20px;
-	margin-bottom:7px;
+	margin:-10px 0px 0px 5px;
 	cursor:pointer;
 }
 .ContactList .star-not-sel{
@@ -41,7 +32,7 @@
 	width:24px;
 	height:23px;
 	display: inline-table;
-	background-image:url(../images/star.png);
+	background-image:url(../img/star.png);
 	margin-top:5px;
 	cursor:pointer;
 }
@@ -50,7 +41,7 @@
 	width:24px;
 	height:23px;
 	display: inline-table;
-	background-image:url(../images/star-light.png);
+	background-image:url(../img/star-light.png);
 	margin-top:5px;
 	cursor:pointer;
 }
@@ -69,7 +60,8 @@
 	background:#FFFFFF;
 }
 .ContactList .search-content{
-	height:25px;
+	margin-top:3px;
+	height:15px;
 	width:220px;
 	outline:none;	
 	border:0px;
@@ -81,7 +73,6 @@
 	margin-bottom:-6px;
 	margin-left:10px;
 	display: inline-table;
-	background-image:url(../images/magnifier.png);
 }
 
 .not-display {

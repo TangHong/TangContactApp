@@ -41,6 +41,7 @@ var ipad = ipad || {};
 			
 			$e.find(".update").click(function() {
 				var category = {};
+				console.log($e);
 				var objId = $e.find(".CategoryCreate").attr("data-obj_id");
 				category.name = $e.find(".name")[0].value;
 

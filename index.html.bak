@@ -8,6 +8,8 @@
 		<link rel="stylesheet" type="text/css" href="css/DialogPrompt.css" />
 		<link rel="stylesheet" type="text/css" href="css/ContactList.css" />
 		<link rel="stylesheet" type="text/css" href="css/ContactDisplay.css" />
+		<link rel="stylesheet" type="text/css" href="css/ByCompany.css" />
+		<link rel="stylesheet" type="text/css" href="css/ByCategory.css" />
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" />
 		

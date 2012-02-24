@@ -1,12 +1,14 @@
 <script id="ipad-ByCompany" type="text/html">
-	<div class="ByCompany">
-		<div class="ContactHome-header">By Company</div>
+	<div class="ContactDisplay">
+		<div class="ContactDisplay-header">By Company</div>
 		{{#if companyList.length}}
 				{{#each companyList}}
 					<div class="company-container"  data_obj-id="{{id}}">
-						<div class="company-header">{{name}} 
-							<span class="delete-company">Delete</span>
-							<span class="edit-company">Edit</span>
+						<div class="group-header">{{name}} 
+							
+							<i class="icon-trash delete-group"></i>
+							<i class="icon-pencil edit-group"></i>
+							
 						</div>
 						<div class="con-container" data_obj-id="{{id}}"></div>
 						{{#unless member_id}}
@@ -27,6 +29,7 @@
 										<div class="image"><img src="{{#if image}}{{image}}{{else}}../img/face.png{{/if}}"></div>
 										<div class="name">{{name}}</div>
 										<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
-										<div class="del">delete</div>
+										
+										<i class="icon-trash del"></i>
 	</div>
 </script>

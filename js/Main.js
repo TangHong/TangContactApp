@@ -25,8 +25,12 @@ var ipad = ipad || {};
 		
 		var $contactContainer = $(".contact-container");
 		
+		resizeWindow();
 		
-		
+		$(window).resize(function() {
+ 			resizeWindow();
+		});
+
 		
 		brite.display("ContactList",null,{
 			parent:$contactContainer
@@ -67,6 +71,10 @@ var ipad = ipad || {};
 	// --------- /Component Interface Implementation --------- //
 
 	// --------- Component Private Methods --------- //
+	function resizeWindow() {
+		var rigConWidth = $(window).width()-350;
+		$(".right-container").width(rigConWidth);	
+	}
 	
 	// --------- /Component Private Methods --------- //
 	

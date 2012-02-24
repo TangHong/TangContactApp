@@ -117,7 +117,7 @@ var ipad = ipad || {};
 			})
 		})
 		
-		$e.delegate(".edit-category","click",function() {
+		$e.delegate(".edit-group","click",function() {
 			var objId = $(this).closest(".category-container").attr("data_obj-id");
 			brite.dm.get("Category",objId).done(function(category) {
 				brite.display("CategoryCreate",category, {
@@ -126,7 +126,7 @@ var ipad = ipad || {};
 			});
 		})
 
-		$e.delegate(".delete-category","click",function() {
+		$e.delegate(".delete-group","click",function() {
 			var objId = $(this).closest(".category-container").attr("data_obj-id");
 			brite.dm.remove("Category",objId).done(function() {
 				brite.display("ByCategory",null,{

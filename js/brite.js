@@ -83,7 +83,7 @@ var brite = brite || {};
 		var def = {};
 		def.name = name;
 		def.componentFactory = componentFactory;
-		def.config = $.extend({}, brite.defaultComponentConfig,config);
+		def.config = $.extend({}, this.defaultComponentConfig,config);
 		_componentDefStore[name] = def;
 
 		// This resolve the deferred if we had a deferred component loading 

@@ -1,5 +1,14 @@
+@boderColor:#848B9B;
+
+@border:1px solid @boderColor;
+
+.Arial() {
+	font-family:Arial;
+}
+
+
 .ContactDisplay{
-	border-left:1px solid #AAAAAA;
+	border-left:@border;
 }
 
 .ContactDisplay-header{
@@ -8,19 +17,19 @@
 	color:#717880;
 	height:38px;
 	font-size:1.2em;
-	font-family:Arial;
+	.Arial();
 	padding-top:10px;
 	text-shadow: 0 1px 0 #D8D9DC;
-	border-top:1px solid #848B9B;
-	border-bottom:1px solid #848B9B;
+	border-top:@border;
+	border-bottom:@border;
 } 
 
 .group-header{
 	background:-webkit-gradient(linear,0 0,0 100%, from(#91A0AC), to(#B5BFC6)); 
-	border:1px solid #848B9B;
+	border:@border;
 	height:25px;
 	font-weight:bold;
-	font-family:Arial;
+	.Arial();
 	color:#FFFFFF;
 	font-size:1.2em;
 }
@@ -40,40 +49,34 @@
 	height:31px;	
 }
 .ContactDisplay .name{
-	font-family:Arial;
+	.Arial();
 	margin:0 0 0 10px;
 	display: inline-table;
 	width:100px;
 }
 .ContactDisplay .description{
 	font-size:0.5em;
-	font-family:Arial;
+	.Arial();
 	color:#5E84AB;
 	margin:10px 0 0 40px;
 }
 .ContactDisplay .del{
 	cursor:pointer;
 	font-size:0.5em;
-	font-family:Arial;
+	.Arial();
 	color:red;
 	margin:0 0 0 40px;
 }
 
 .edit-group{
 	cursor:pointer;
-	color:red;
 	margin:6px 5px 0 10px;
 	float:right;
-	font-weight:normal;
-	font-size:0.8em;
 }
 
 .delete-group{
 	cursor:pointer;
-	color:red;
 	margin:6px 5px 0 10px;
 	float:right;
-	font-weight:normal;
-	font-size:0.8em;
 }
 

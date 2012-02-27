@@ -30,6 +30,9 @@ var ipad = ipad || {};
 		var $e = c.$element;
 	
 		
+		$(".con").draggable({revert:true});	
+		
+		
 		$e.delegate(".search-content","input",function() {
 			var searchContent = $e.find(".search-content").val();
 			if($e.find(".con").length>0) {

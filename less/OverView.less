@@ -16,12 +16,43 @@
 
 .trash {
 	margin-top:20px;
-	background-image:url(../img/dustbin.png);
+	padding:20px;
+	background-color:#C4E8FD;
 	height:200px;
-	background-repeat: no-repeat;
 }
+
 
 .OverView img {
 	margin:10px;
 	width:181px;
+}
+
+
+//landscape phone
+@media (max-width: 480px){
+		
+		.OverView{
+			padding-top: 0px;
+		}
+		
+		.trash {
+			margin-top:20px;
+			height:20%;
+			
+		}
+		
+		.OverView .tag {
+			float:left;
+			margin:5px 5px 0 0;
+			padding-bottom:5px;
+			width:25%;
+			border-radius:5px;
+		}
+		
+		.OverView img {
+			margin:10px;
+			width:30%;
+		}
+
+		
 }

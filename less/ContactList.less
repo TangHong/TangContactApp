@@ -1,3 +1,9 @@
+.icon() {
+	margin:-10px 5px 0px 0px;
+	cursor:pointer;
+}
+
+
 .ContactList .con{
   height:45px;
 	width:350px;
@@ -22,29 +28,15 @@
 	margin-bottom:7px;
 }
 .ContactList .edit{
-	margin:-10px 0px 0px 0px;
-	cursor:pointer;
+	.icon();
 }
 .ContactList .del{
-	margin:-10px 0px 0px 0px;
-	cursor:pointer;
+	.icon();
 }
-.ContactList .star-not-sel{
-	width:24px;
-	height:23px;
-	display: inline-table;
-	background-image:url(../img/star.png);
-	margin:0px 0 5px 5px;
-	cursor:pointer;
+.ContactList .star{
+	.icon();
 }
-.ContactList .star-sel{
-	width:24px;
-	height:23px;
-	display: inline-table;
-	background-image:url(../img/star-light.png);
-	margin:0 0 5px 5px;
-	cursor:pointer;
-}
+
 .ContactList .search{
 	background:-webkit-gradient(linear,left top,left bottom, from(#F3F5F7), to(#A8ADBA)) ; 
 	height:38px;
@@ -77,4 +69,21 @@
 
 .not-display {
 	display:none;	
+}
+
+//landscape phone
+@media (max-width: 480px){
+	
+	.ContactList .con {
+		width:100%;
+	}
+	
+	.ContactList .text {
+		width:70%;
+	}
+  
+  .ContactList .image {
+  	width:10%;
+  }
+  
 }

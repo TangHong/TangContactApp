@@ -11,7 +11,7 @@ var ipad = ipad || {};
 		var company = data;
 		
 		var context = {"company":company};
-		var source = $("#ipad-CompanyCreate").html();
+		var source = $("#tmpl-CompanyCreate").html();
 		var template = Handlebars.compile(source);
 		var html = template(context);
 		var $e = $(html);

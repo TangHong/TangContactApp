@@ -15,7 +15,7 @@ var ipad = ipad || {};
 			c.company = company;
 			
 			var context = {companyList:company};
-			var source = $("#ipad-ByCompany").html();
+			var source = $("#tmpl-ByCompany").html();
 			var template = Handlebars.compile(source);
 			var html = template(context);
 			var $e = $(html);
@@ -40,15 +40,18 @@ var ipad = ipad || {};
 				for(j=0;j<ids.length;j++) {
 					var $contactList = $e.parents().bFindComponents("ContactList")[0].$element;
 					var $con = $contactList.find("[data_obj-id='"+ids[j]+"']");
-					var contact =	divToData($con);
-					var context = contact;
-					var source = $("#ipad-contact").html();
-					var template = Handlebars.compile(source);
-					var conBar = template(context);
-					var $c = $(conBar);
 				
-					$e.find(".con-container[data_obj-id='"+c.company[i].id+"']").append($c);
+					if($con.length > 0) {
+						var contact =	divToData($con);
+						var context = contact;
+						var source = $("#ipad-contact").html();
+						var template = Handlebars.compile(source);
+						var conBar = template(context);
+						var $c = $(conBar);
+						
+						$e.find(".con-container[data_obj-id='"+c.company[i].id+"']").append($c);
 					}
+				}
 				
 			}
 		}	
@@ -86,7 +89,7 @@ var ipad = ipad || {};
 			};
 			
 			var $contactList = $e.parents().bFindComponents("ContactList")[0].$element;	
-			$contactList.find(".star-sel").each(function() {
+			$contactList.find(".icon-star").each(function() {
 				var objId = $(this).closest(".con").attr("data_obj-id");
 				if(!isExist.call(c,objId,companyId)){
 					member_id.push(objId);

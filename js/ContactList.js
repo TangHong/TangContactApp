@@ -13,7 +13,7 @@ var ipad = ipad || {};
 		return brite.dm.list("Contact").pipe(function(contacts){
 			c.contacts = contacts;
 			var context = {contactList:contacts}
-			var source = $("#ipad-ContactList").html();
+			var source = $("#tmpl-ContactList").html();
 			var template = Handlebars.compile(source);
 			var html = template(context);
 			var $e = $(html);
@@ -77,7 +77,7 @@ var ipad = ipad || {};
 		$e.delegate(".del","click",function() {
 				var id = $(this).closest(".con").attr("data_obj-id");
 				brite.dm.remove("Contact",id).done(function() {
-					brite.display("main",null, {
+					brite.display("Main",null, {
 						parent : $workspace
 					});		
 				});
@@ -85,12 +85,12 @@ var ipad = ipad || {};
 			})
 
 		$e.delegate(".star","click",function() {
-			if($(this).hasClass("star-not-sel")){
-					$(this).removeClass("star-not-sel");
-					$(this).addClass("star-sel");	
+			if($(this).hasClass("icon-star-empty")){
+					$(this).removeClass("icon-star-empty");
+					$(this).addClass("icon-star");	
 			}else {
-				$(this).removeClass("star-sel");
-				$(this).addClass("star-not-sel");	
+				$(this).removeClass("icon-star");
+				$(this).addClass("icon-star-empty");	
 				}
 
 		})

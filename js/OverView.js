@@ -13,7 +13,7 @@ var ipad = ipad || {};
 		return brite.dm.list("Contact").pipe(function(contacts){
 			c.contacts = contacts;
 			var context = {contactList:contacts}
-			var source = $("#ipad-OverView").html();
+			var source = $("#tmpl-OverView").html();
 			var template = Handlebars.compile(source);
 			var html = template(context);
 			var $e = $(html);
@@ -46,7 +46,7 @@ var ipad = ipad || {};
     
     
    $e.delegate(".home","click",function() {
-   		brite.display("main",null, {
+   		brite.display("Main",null, {
 					parent : $workspace
 			});
    });

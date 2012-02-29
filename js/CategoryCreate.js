@@ -11,7 +11,7 @@ var ipad = ipad || {};
 		var category = data;
 		
 		var context = {"category":category};
-		var source = $("#ipad-CategoryCreate").html();
+		var source = $("#tmpl-CategoryCreate").html();
 		var template = Handlebars.compile(source);
 		var html = template(context);
 		var $e = $(html);

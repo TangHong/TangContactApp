@@ -8,10 +8,11 @@ var ipad = ipad || {};
 	}
 
 	ContactCreate.prototype.create = function(data, config) {
+		var c =  this;
 		var contact = data;
-		
+		c.contact = contact;
 		var context = {"contact":contact};
-		var source = $("#ipad-ContactCreate").html();
+		var source = $("#tmpl-ContactCreate").html();
 		var template = Handlebars.compile(source);
 		var html = template(context);
 		var $e = $(html);
@@ -57,7 +58,7 @@ var ipad = ipad || {};
 				}
 				
 				brite.dm.create("Contact",contact).done(function(){
-					brite.display("main",null, {
+					brite.display("Main",null, {
 						parent : $workspace
 					});	
 				});		
@@ -73,13 +74,13 @@ var ipad = ipad || {};
 				contact.name = name;
 				contact.phone = phone;
 				contact.description = description;
-				contact.image = ""
+				contact.image = c.contact.image;
 				if(c.image) {
 					contact.image = c.image;
 				}
 				
 				brite.dm.update("Contact",objId,contact).done(function(){
-					brite.display("main",null, {
+					brite.display("Main",null, {
 						parent : $workspace
 					});	
 				});

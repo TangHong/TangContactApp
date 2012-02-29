@@ -3,23 +3,23 @@ var ipad = ipad || {};
 (function($) {
 
 	// --------- Component Interface Implementation --------- //
-	function main() {
+	function Main() {
 		
 	}
 
-	main.prototype.create = function(data, config) {
-		var source   = $("#ipad-main").html();
+	Main.prototype.create = function(data, config) {
+		var source   = $("#tmpl-Main").html();
 		var template = Handlebars.compile(source);	
 		var html = template();
 	  var $e = $(html);
 		return $e;
 	}
 	
-	main.prototype.init = function(data, config) {
+	Main.prototype.init = function(data, config) {
 
 	}
 	
-	main.prototype.postDisplay = function() {
+	Main.prototype.postDisplay = function() {
 		var c  = this;
 		var $e  = this.$element;
 		
@@ -79,11 +79,11 @@ var ipad = ipad || {};
 	// --------- /Component Private Methods --------- //
 	
 	// --------- Component Registration --------- //
-    brite.registerComponent("main", {
+    brite.registerComponent("Main", {
         emptyParent : true,
         loadTemplate: true
     }, function() {
-        return new main();
+        return new Main();
     });	
 	// --------- /Component Registration --------- //
 	

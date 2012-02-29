@@ -5,7 +5,7 @@
         <title>Ipad Contact App</title>
 		
 		
-		<link rel="stylesheet/less" type="text/css" href="less/main.less" />
+		<link rel="stylesheet/less" type="text/css" href="less/Main.less" />
 		<link rel="stylesheet/less" type="text/css" href="less/DialogPrompt.less" />
 		<link rel="stylesheet/less" type="text/css" href="less/ContactList.less" />
 		<link rel="stylesheet/less" type="text/css" href="less/ContactDisplay.less" />
@@ -24,7 +24,7 @@
 		<script type="text/javascript" src="js/bootstrap.js"></script>
 		<script type="text/javascript" src="js/brite.dao.SQLiteDao.js"></script>
 		<script type="text/javascript" src="js/sd-daos.js"></script>	
-		<script type="text/javascript" src="js/main.js" ></script>
+		<script type="text/javascript" src="js/Main.js" ></script>
 		<script type="text/javascript" src="js/OverView.js" ></script>
 		<script type="text/javascript" src="js/ContactList.js" ></script>
 		<script type="text/javascript" src="js/ContactCreate.js" ></script>
@@ -33,6 +33,7 @@
 		<script type="text/javascript" src="js/ByCompany.js" ></script>
 		<script type="text/javascript" src="js/CategoryCreate.js" ></script>
 		<script type="text/javascript" src="js/ByCategory.js" ></script>
+		<script type="text/javascript" src="js/MainPhone.js" ></script>
 		<script type="text/javascript" src="js/StateManager.js"></script>
 	 
     </head>
@@ -44,9 +45,14 @@
 			var $workspace = $("body").find("#workspace");
 			
 			$(document).ready(function(){
-				brite.display("main",null, {
+				//brite.display("Main",null, {
+				//	parent : $workspace
+				//});
+				
+				brite.display("MainPhone",null, {
 					parent : $workspace
 				});
+				
 			});
 		</script>
     </body>

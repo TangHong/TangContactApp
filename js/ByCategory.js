@@ -34,39 +34,25 @@ var ipad = ipad || {};
 		var c = this;
 		var $e = c.$element;
 		
-		for(i=0;i<c.category.length;i++) {
-			if(c.category[i].member_id){
-				var ids = c.category[i].member_id.split(",");
-				for(j=0;j<ids.length;j++) {
-					var $contactList = $e.parents().bFindComponents("ContactList")[0].$element;
-					var $con = $contactList.find("[data_obj-id='"+ids[j]+"']");
-					
-					if($con.length > 0) {
-						var contact =	divToData($con);
-						var context = contact;
-						var source = $("#tmpl-contact").html();
-						var template = Handlebars.compile(source);
-						var conBar = template(context);
-						var $c = $(conBar);
-						
-						$e.find(".con-container[data_obj-id='"+c.category[i].id+"']").append($c);
-					}
+		$e.find(".con-container").each(function() {
+				var ids = [];
+				var $container = $(this);
+				if($container.attr("member_id")) {
+				ids = $container.attr("member_id").split(",");
 				}
-				
-			}
-		}	
-		
-		$e.find(".con-bar").each(function() {
-			if($(this).attr("data_obj-id") == "") {
-				$(this).remove();
-			}
+				if(ids.length>0) {
+					brite.dm.list("Contact",{ids:ids}).pipe(function(contacts) {
+							var context = {contactList:contacts};
+							var source = $("#tmpl-contact").html();
+							var template = Handlebars.compile(source);
+							var conBar = template(context);
+							var $c = $(conBar);
+							$container.append($c);
+					})
+				}
 		})
 		
-		var options = {};
-		options.title = "Add Contacts";		
-		options.content = "Please click star in the contact list to choose what you want to add!";
-		$e.find('.add').popover(options);
-		
+	
 		$e.delegate(".create","click",function() {
 			brite.display("CategoryCreate",null, {
 						parent : $workspace
@@ -74,34 +60,19 @@ var ipad = ipad || {};
 		})
 		
 		$e.delegate(".add","click",function() {
-			$(".popover").remove();
-			var category = {};
 			var categoryId = $(this).closest(".category-container").attr("data_obj-id");
+			var data = {};
+			data.groupId = categoryId;
+			data.type = "Category";
 			
-			var member_id = [];
+			var dfd = brite.display("SelectContact",data, {
+						parent : $workspace
+			});	
 			
-			for(i=0;i<c.category.length;i++) {
-				if(c.category[i].id == categoryId){
-					if(c.category[i].member_id != "" && c.category[i].member_id != null) {
-						member_id = c.category[i].member_id.split(",");
-					}
-				}
-			};
-			
-			var $contactList = $e.parents().bFindComponents("ContactList")[0].$element;	
-			$contactList.find(".icon-star").each(function() {
-				var objId = $(this).closest(".con").attr("data_obj-id");
-				if(!isExist.call(c,objId,categoryId)){
-					member_id.push(objId);
-				}
-				
-			});
-			category.member_id	= member_id;
-		
-			brite.dm.update("Category",categoryId,category).done(function() {
-				brite.display("ByCategory",null,{
-					parent:$(".right-container")
-				})
+			dfd.done(function(dialog) {
+					dialog.onAnswer(function(result) {
+						add.call(c,result,categoryId);
+					})
 			})
 		})
 		
@@ -142,34 +113,33 @@ var ipad = ipad || {};
 	// --------- /Component Interface Implementation --------- //
 
 	// --------- Component Private Methods --------- //
-	
-	function isExist(contactId,categoryId) {
-		var c = this;
-		var category = c.category;
-		for(i=0;i<category.length;i++) {
-			if(category[i].id == categoryId){
-				if(category[i].member_id !="" && category[i].member_id != null){
-					var ids = category[i].member_id.split(",");
-					for(j=0;j<ids.length;j++) {
-						if(ids[j]==contactId) {
-							return true;	
-						};
-					}
+	function add(ids,categoryId) {
+		var c = this;	
+		var category = {};
+		var member_id = [];
+		
+		for(i=0;i<c.category.length;i++) {
+			if(c.category[i].id == categoryId){
+				if(c.category[i].member_id != "" && c.category[i].member_id != null) {
+					member_id = c.category[i].member_id.split(",");
 				}
-				return false;
 			}
 		};
+		if(ids.length >0 ){
+			for(i=0;i<ids.length;i++) {
+				member_id.push(ids[i]);
+			}
+		}
+		
+		category.member_id	= member_id;
+		brite.dm.update("Category",categoryId,category).done(function() {
+			brite.display("ByCategory",null,{
+				parent:$(".right-container")
+			})
+		})
+						
 	}
 	
-	
-	function divToData($con) {
-		var contact = {};
-		contact.id = $con.attr("data_obj-id");
-		contact.name = $con.find(".text").text();
-		contact.image = $con.find("img").attr("src");
-		contact.description = $con.attr("description");
-		return contact;
-	}
 	
 	function deleteId(id,categoryId) {
 		var c = this;

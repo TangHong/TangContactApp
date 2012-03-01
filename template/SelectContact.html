@@ -1,0 +1,34 @@
+<script type="text/html" id="tmpl-SelectContact">
+			<div class="Dialog-container">
+				<div class="DialogPromptGlass"></div>
+					<div class="DialogPrompt">
+								<h2>
+									Select Contacts
+								</h2>
+								
+									
+							{{#if contactList.length}}
+									{{#each contactList}}
+										<div class="tag" data_obj-id="{{id}}" description="{{description}}">
+											<div class="image"><img {{#if image}}src="{{image}}"{{else}}src="img/face.png"{{/if}}></div>
+											<div class="text">{{name}} </div>
+										</div>
+									{{/each}}
+									{{else}}
+										<p class="no-content">No contact to add!</p>
+							{{/if}}	
+					
+							 <div class="DialogPrompt-buttonbar">
+		        
+		 				
+		 					  <button class="ok btn">OK</button>
+		            <button class="cancel btn">Cancel</button>
+		        </div>
+							
+					
+					</div>		
+				</div>	
+			</div>
+			
+	
+</script>

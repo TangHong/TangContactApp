@@ -34,39 +34,25 @@ var ipad = ipad || {};
 		var c = this;
 		var $e = c.$element;
 		
-		for(i=0;i<c.company.length;i++) {
-			if(c.company[i].member_id){
-				var ids = c.company[i].member_id.split(",");
-				for(j=0;j<ids.length;j++) {
-					var $contactList = $e.parents().bFindComponents("ContactList")[0].$element;
-					var $con = $contactList.find("[data_obj-id='"+ids[j]+"']");
-				
-					if($con.length > 0) {
-						var contact =	divToData($con);
-						var context = contact;
-						var source = $("#ipad-contact").html();
-						var template = Handlebars.compile(source);
-						var conBar = template(context);
-						var $c = $(conBar);
-						
-						$e.find(".con-container[data_obj-id='"+c.company[i].id+"']").append($c);
-					}
+		$e.find(".con-container").each(function() {
+				var ids = [];
+				var $container = $(this);
+				if($container.attr("member_id")) {
+				ids = $container.attr("member_id").split(",");
 				}
-				
-			}
-		}	
-		
-		$e.find(".con-bar").each(function() {
-			if($(this).attr("data_obj-id") == "") {
-				$(this).remove();
-			}
+				if(ids.length>0) {
+					brite.dm.list("Contact",{ids:ids}).pipe(function(contacts) {
+							var context = {contactList:contacts};
+							var source = $("#tmpl-contact").html();
+							var template = Handlebars.compile(source);
+							var conBar = template(context);
+							var $c = $(conBar);
+							$container.append($c);
+					})
+				} 
 		})
-		
-		var options = {};
-		options.title = "Add Contacts";		
-		options.content = "Please click star in the contact list to choose what you want to add!";
-		$e.find('.add').popover(options);
-		
+				
+				
 		$e.delegate(".create","click",function() {
 			brite.display("CompanyCreate",null, {
 						parent : $workspace
@@ -74,39 +60,23 @@ var ipad = ipad || {};
 		})
 		
 		$e.delegate(".add","click",function() {
-			$(".popover").remove();
-			var company = {};
 			var companyId = $(this).closest(".company-container").attr("data_obj-id");
+			var data = {};
+			data.groupId = companyId;
+			data.type = "Company";
 			
-			var member_id = [];
+			var dfd = brite.display("SelectContact",data, {
+						parent : $workspace
+			});	
 			
-			for(i=0;i<c.company.length;i++) {
-				if(c.company[i].id == companyId){
-					if(c.company[i].member_id != "" && c.company[i].member_id != null) {
-						member_id = c.company[i].member_id.split(",");
-					}
-				}
-			};
-			
-			var $contactList = $e.parents().bFindComponents("ContactList")[0].$element;	
-			$contactList.find(".icon-star").each(function() {
-				var objId = $(this).closest(".con").attr("data_obj-id");
-				if(!isExist.call(c,objId,companyId)){
-					member_id.push(objId);
-				}
-				
-			});
-			company.member_id	= member_id;
-		
-			brite.dm.update("Company",companyId,company).done(function() {
-				brite.display("ByCompany",null,{
-					parent:$(".right-container")
-				})
+			dfd.done(function(dialog) {
+					dialog.onAnswer(function(result) {
+						add.call(c,result,companyId);
+					})
 			})
 		})
 		
 		$e.delegate(".del","click",function() {
-			$(".popover").remove();
 			var objId = $(this).closest(".con-bar").attr("data_obj-id");
 			var companyId = $(this).closest(".con-container").attr("data_obj-id");
 			var member_id = deleteId.call(c,objId,companyId);
@@ -142,32 +112,31 @@ var ipad = ipad || {};
 	// --------- /Component Interface Implementation --------- //
 
 	// --------- Component Private Methods --------- //
-	function isExist(contactId,companyId) {
-		var c = this;
-		var company = c.company;
-		for(i=0;i<company.length;i++) {
-			if(company[i].id == companyId){
-				if(company[i].member_id !="" && company[i].member_id != null){
-					var ids = company[i].member_id.split(",");
-					for(j=0;j<ids.length;j++) {
-						if(ids[j]==contactId) {
-							return true;	
-						};
-					}
+	function add(ids,companyId) {
+		var c = this;	
+		var company = {};
+		var member_id = [];
+		
+		for(i=0;i<c.company.length;i++) {
+			if(c.company[i].id == companyId){
+				if(c.company[i].member_id != "" && c.company[i].member_id != null) {
+					member_id = c.company[i].member_id.split(",");
 				}
-				return false;
 			}
 		};
-	}
-	
-	
-	function divToData($con) {
-		var contact = {};
-		contact.id = $con.attr("data_obj-id");
-		contact.name = $con.find(".text").text();
-		contact.image = $con.find("img").attr("src");
-		contact.description = $con.attr("description");
-		return contact;
+		if(ids.length >0 ){
+			for(i=0;i<ids.length;i++) {
+				member_id.push(ids[i]);
+			}
+		}
+		
+		company.member_id	= member_id;
+		brite.dm.update("Company",companyId,company).done(function() {
+			brite.display("ByCompany",null,{
+				parent:$(".right-container")
+			})
+		})
+						
 	}
 	
 	function deleteId(id,companyId) {

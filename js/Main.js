@@ -72,8 +72,13 @@ var ipad = ipad || {};
 
 	// --------- Component Private Methods --------- //
 	function resizeWindow() {
-		var rigConWidth = $(window).width()-350;
-		$(".right-container").width(rigConWidth);	
+		console.log($(window).width());
+		if($(window).width()>750){
+			var rigConWidth = $(window).width()-350;
+			$(".right-container").width(rigConWidth);	
+		}else {
+			$(".right-container").width($(window).width());	
+		}
 	}
 	
 	// --------- /Component Private Methods --------- //

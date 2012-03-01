@@ -1,3 +1,7 @@
+.sel {
+	background-color:#C4E8FD;
+}
+
 .DialogPrompt {
 	position: absolute;
 	top: 200px;
@@ -43,9 +47,41 @@
 	margin-top:15px;	
 }
 
+.DialogPrompt .tag {
+	height:45px;
+	width:200px;
+	margin:10px 0 10px 30px;
+	display: inline-table;
+	border-radius:5px;
+	border-bottom: 1px solid #858585;
+	border-left: 1px solid #BCBCBE;
+	border-right: 1px solid #BCBCBE;
+	-webkit-box-shadow: 0px 1px 1px #828282;
+}
+
+.DialogPrompt .tag .image{
+	display: inline-table;
+}
+
+.DialogPrompt .tag .image >img{
+	margin-top:6px;
+	margin-left:10px;
+	height:31px;
+	width:31px;
+}
+
+.DialogPrompt .tag .text{
+	text-align:center;
+	width:69px;
+	display: inline-table;
+	font-family:Arial;
+	margin-bottom:7px;
+	color:black;
+}
+
 
 //landscape phone
-@media (max-width: 480px){
+@media (max-width: 750px){
 	
 	 .DialogPrompt {
 	 		top:0;
@@ -61,5 +97,9 @@
 	 
 	 .controls {
 	 		padding-left:20%;
+	 }
+	 
+	 .DialogPromptGlass {
+	 		height:1486px;
 	 }
 }

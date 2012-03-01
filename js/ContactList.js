@@ -29,8 +29,6 @@ var ipad = ipad || {};
 		var c = this;
 		var $e = c.$element;
 
-
-
 		$e.delegate(".search-content","input",function() {
 			var searchContent = $e.find(".search-content").val();
 			if($e.find(".con").length>0) {
@@ -46,7 +44,6 @@ var ipad = ipad || {};
 							$(this).removeClass("not-display");
 						}
 					});
-
 				}else {
 					$e.find(".con").addClass("display");
 					$e.find(".con").removeClass("not-display");
@@ -81,7 +78,6 @@ var ipad = ipad || {};
 						parent : $workspace
 					});		
 				});
-				//$(this).closest(".con").fadeOut("slow");
 			})
 
 		$e.delegate(".star","click",function() {
@@ -92,7 +88,8 @@ var ipad = ipad || {};
 				$(this).removeClass("icon-star");
 				$(this).addClass("icon-star-empty");	
 				}
-
+				
+			$("[wizard-id='1']").trigger("click");
 		})
 
 		$e.delegate(".edit","click",function() {

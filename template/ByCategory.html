@@ -3,7 +3,7 @@
 		<div class="ContactDisplay-header">By Category</div>
 		{{#if categoryList.length}}
 			{{#each categoryList}}
-				<div class="category-container"  data_obj-id="{{id}}">
+				<div class="category-container"  data_obj-id="{{id}}" member_id="{{member_id}}" >
 						<div class="group-header">{{name}}
 							
 								<i class="icon-trash delete-group"></i>
@@ -28,11 +28,11 @@
 	{{#if contactList.length}}
 		{{#each contactList}}
 		<div class="con-bar" data_obj-id="{{id}}">
-											<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
-											<div class="name">{{name}}</div>
-											<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
-											
-											<i class="icon-trash del"></i>
+			<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
+			<div class="name">{{name}}</div>
+			<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
+			
+			<i class="icon-trash del"></i>
 		</div>
 		{{/each}}
 	{{/if}}

@@ -9,28 +9,18 @@ var ipad = ipad || {};
 	
 	SelectContact.prototype.create = function(data,config) {
 		var c = this;
-		var groupId = data.groupId;
-		var type = data.type;
-		var member_id = [];
+		var ops = data.ops;
 		
-		return brite.dm.get(type,groupId).pipe(function(company) {
-			if(company.member_id != "" && company.member_id != null){	
-				member_id = company.member_id.split(",");
-			}
+		return brite.dm.list("Contact",ops).pipe(function(contacts){
+			c.contacts = contacts;
+			var context = {contactList:contacts}
+			var source = $("#tmpl-SelectContact").html();
+			var template = Handlebars.compile(source);
+			var html = template(context);
+			var $e = $(html);
+			return $e;
+		});
 			
-			return brite.dm.list("Contact",{notIn:member_id}).pipe(function(contacts){
-				c.contacts = contacts;
-				var context = {contactList:contacts}
-				var source = $("#tmpl-SelectContact").html();
-				var template = Handlebars.compile(source);
-				var html = template(context);
-				var $e = $(html);
-				return $e;
-			});
-			
-		})
-		
-		
 	}
 	
 	SelectContact.prototype.init = function() {

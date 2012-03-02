@@ -9,7 +9,7 @@ var ipad = ipad || {};
 	
 	OverView.prototype.create = function(data,config) {
 		var c = this;
-		
+		console.log("success");
 		return brite.dm.list("Contact").pipe(function(contacts){
 			c.contacts = contacts;
 			var context = {contactList:contacts}
@@ -32,30 +32,33 @@ var ipad = ipad || {};
 		$e.find(".tag").draggable({revert:true});	
 		 
 		$e.find(".trash").droppable({
-      drop: function(event,ui) {
-      				var tag =  ui.draggable;
-      				var objId = $(tag).attr("data_obj-id");
-      				$(tag).fadeOut();
-      				brite.dm.remove("Contact",objId).done(function() {
-      					brite.display("OverView",null, {
-									parent : $workspace
-								});		
-      				})
-      }
-    });
-    
-    
-   $e.delegate(".home","click",function() {
-   		brite.display("Main",null, {
-					parent : $workspace
-			});
-   });
+			drop: function(event,ui) {
+				var tag =  ui.draggable;
+				var objId = $(tag).attr("data_obj-id");
+				$(tag).fadeOut();
+				brite.dm.remove("Contact",objId).done(function() {
+					brite.display("OverView",null, {
+						parent:$(".right-container")
+					});	
+					brite.display("ContactList",null, {
+						parent:$(".contact-container")
+					});	
+				})
+			}
+		});
+	    
+	    
+	   $e.delegate(".home","click",function() {
+		brite.display("Main",null, {
+						parent : $workspace
+				});
+	   });
+		
+		
+		}
+		
+		// --------- /Component Interface Implementation --------- //
 	
-	
-	}
-	
-	// --------- /Component Interface Implementation --------- //
-
 	// --------- Component Private Methods --------- //
 	
 	// --------- /Component Private Methods --------- //
@@ -69,6 +72,6 @@ var ipad = ipad || {};
 	    });	
 	// --------- /Component Registration --------- //
 	
-	
+
 	
 })(jQuery);

@@ -61,9 +61,15 @@ var ipad = ipad || {};
 		
 		$e.delegate(".add","click",function() {
 			var companyId = $(this).closest(".company-container").attr("data_obj-id");
+			var member_id = $(this).closest(".company-container").attr("member_id");
+			var existIds = [];
+			
+			if(member_id != "" && member_id != null){	
+					 existIds = member_id.split(",");
+			}
+			
 			var data = {};
-			data.groupId = companyId;
-			data.type = "Company";
+			data.ops = {notIn:existIds};
 			
 			var dfd = brite.display("SelectContact",data, {
 						parent : $workspace

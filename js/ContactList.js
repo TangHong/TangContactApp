@@ -67,8 +67,9 @@ var ipad = ipad || {};
 		})
 
 		$e.delegate(".overView","click",function() {
+			console.log("success1");
 				brite.display("OverView",null, {
-						parent : $workspace
+					parent:$(".right-container")
 				});
 		})
 

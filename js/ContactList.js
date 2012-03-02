@@ -28,7 +28,8 @@ var ipad = ipad || {};
 	ContactList.prototype.postDisplay = function() {
 		var c = this;
 		var $e = c.$element;
-
+		
+		//search contact
 		$e.delegate(".search-content","input",function() {
 			var searchContent = $e.find(".search-content").val();
 			if($e.find(".con").length>0) {
@@ -83,10 +84,14 @@ var ipad = ipad || {};
 		$e.delegate(".star","click",function() {
 			if($(this).hasClass("icon-star-empty")){
 					$(this).removeClass("icon-star-empty");
-					$(this).addClass("icon-star");	
+					$(this).addClass("icon-star");
+					var objId = $(this).closest(".con").attr("data_obj-id");
+					setFavorite(objId);
 			}else {
 				$(this).removeClass("icon-star");
 				$(this).addClass("icon-star-empty");	
+				var objId = $(this).closest(".con").attr("data_obj-id");
+				remFavorite(objId);
 				}
 				
 			$("[wizard-id='1']").trigger("click");
@@ -107,6 +112,26 @@ var ipad = ipad || {};
 	// --------- /Component Interface Implementation --------- //
 
 	// --------- Component Private Methods --------- //
+		function setFavorite(objId) {
+			var contact = {};
+			contact.favorite = 1;
+			brite.dm.update("Contact",objId,contact).done(function() {
+				brite.display("ContactHome",null,{
+					parent:$(".right-container")
+				})	
+			});
+	}
+	
+		function remFavorite(objId) {
+				var contact = {};
+				contact.favorite = 0;
+				brite.dm.update("Contact",objId,contact).done(function() {
+					brite.display("ContactHome",null,{
+						parent:$(".right-container")
+					});
+				});
+		}
+
 
 	// --------- /Component Private Methods --------- //
 
@@ -121,5 +146,5 @@ var ipad = ipad || {};
 
 
 
-	//ipad.ContactList =ContactList;
+	ipad.ContactList =ContactList;
 })(jQuery);

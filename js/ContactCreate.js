@@ -52,6 +52,8 @@ var ipad = ipad || {};
 				contact.name = name;
 				contact.phone = phone;
 				contact.description = description;
+				contact.favorite = 0;
+				contact.recent = 0;
 				contact.image = ""
 				if(c.image) {
 					contact.image = c.image;

@@ -18,7 +18,7 @@
 		       		<div class="control-group">
 		       			<label class="control-label" for="name">Name:</label>
 			       		<div class="controls">
-			       			<input name="name" type="text" class="input-xlarge name" id="name" value="{{#if company}}{{company.name}}{{/if}}"/>
+			       			<input autofocus="autofocus" name="name" type="text" class="input-xlarge name" id="name" value="{{#if company}}{{company.name}}{{/if}}"/>
 			       		</div>
 		       		</div>
 		       		
@@ -27,11 +27,11 @@
 		       	 	
 		        <div class="DialogPrompt-buttonbar">
 				{{#if company}}
-		 				<button class="update btn">Update</button>
+		 				<button class="update btn-large">Update</button>
 		 			{{else}}
-		 				<button class="ok btn">OK</button>
+		 				<button class="ok btn-large">OK</button>
 		 		{{/if}}	
-		            <button class="cancel btn">Cancel</button>
+		            <button class="cancel btn-large">Cancel</button>
 		        </div>
 		    </div>
 	  </div>

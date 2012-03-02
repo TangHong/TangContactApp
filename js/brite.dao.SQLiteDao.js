@@ -75,6 +75,7 @@
 	 *           opts.pageSize  {Number} Size of the page
 	 *           opts.match     {Object} add condition with expr 'like' in the where clause.
 	 *           opts.equal     {Object} add condition with expr '=' in the where clause.
+	 *           opts.notEqual  {Object} add condition with expr '!=' in the where clause.
 	 *           opts.ids     	{Array}  add condition with expr ' id in (...)' in the where clause.
 	 *					 opts.notIn			{Arry}   add condition with expr ' id not in (...)' in the where clause.
 	 *           opts.orderBy   {String}
@@ -102,7 +103,14 @@
 					}
 				}
 				
-
+				if(opts.notEqual){
+					var filters = opts.notEqual;
+					for(var k in filters){
+						condition += " and " + k + "!='" + filters[k] + "'";
+					}
+				}
+				
+				
 				if(opts.ids && $.isArray(opts.ids)){
 					var ids = opts.ids;
 					

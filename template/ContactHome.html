@@ -5,11 +5,11 @@
 		{{#if homeList.favorites.length}}
 			{{#each homeList.favorites}}
 				<div class="con-bar" data_obj-id="{{id}}">
-										<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
-										<div class="name">{{name}}</div>
-										<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
-										
-										<i data-action="fav-del" class="icon-trash del"></i>
+					<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
+					<div class="name">{{name}}</div>
+					<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
+					
+					<i data-action="fav-del" class="icon-trash del"></i>
 				</div>
 			{{/each}}
 		{{else}}
@@ -21,11 +21,11 @@
 			{{#if homeList.recent.length}}
 			{{#each homeList.recent}}
 				<div class="con-bar" data_obj-id="{{id}}">
-										<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
-										<div class="name">{{name}}</div>
-										<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
+					<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
+					<div class="name">{{name}}</div>
+					<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
 
-										<i data-action="rec-del" class="icon-trash del"></i>
+					<i data-action="rec-del" class="icon-trash del"></i>
 				</div>
 			{{/each}}
 			{{else}}

@@ -53,7 +53,7 @@ var ipad = ipad || {};
 				contact.phone = phone;
 				contact.description = description;
 				contact.favorite = 0;
-				contact.recent = 0;
+				contact.recent = getDays();
 				contact.image = ""
 				if(c.image) {
 					contact.image = c.image;
@@ -109,6 +109,15 @@ var ipad = ipad || {};
 			reader.readAsDataURL(files[0]);
 			return dfd.promise();
 		}
+	}
+	
+	//get days since 1970/01/01 
+	function getDays() {
+		var oneDay = 1000*60*60*24;
+		var date = new Date();
+		var time = date.getTime();
+		var days = Math.floor(time/oneDay);
+		return days;
 	}
 	
 	

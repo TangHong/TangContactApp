@@ -77,7 +77,8 @@
 	 *           opts.equal     {Object} add condition with expr '=' in the where clause.
 	 *           opts.notEqual  {Object} add condition with expr '!=' in the where clause.
 	 *           opts.ids     	{Array}  add condition with expr ' id in (...)' in the where clause.
-	 *					 opts.notIn			{Arry}   add condition with expr ' id not in (...)' in the where clause.
+	 *			 opts.notIn		{Arry}   add condition with expr ' id not in (...)' in the where clause.
+	 *			 opts.moreThan  {Object} add condition with expr '>' in the where clause.
 	 *           opts.orderBy   {String}
 	 *           opts.orderType {String} "asc" or "desc"
 	 */
@@ -100,6 +101,13 @@
 					var filters = opts.equal;
 					for(var k in filters){
 						condition += " and " + k + "='" + filters[k] + "'";
+					}
+				}
+				
+				if(opts.moreThan){
+					var filters = opts.moreThan;
+					for(var k in filters){
+						condition += " and " + k + ">'" + filters[k] + "'";
 					}
 				}
 				
@@ -151,6 +159,8 @@
 					}else{
 						condition += ", -1";
 					}
+				} else if(opts.pageSize){
+					condition += " limit " + opts.pageSize;
 				}
 			}
 			

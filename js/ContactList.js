@@ -37,9 +37,12 @@ var ipad = ipad || {};
 			});
 		})
 
-		$e.delegate(".overView","click",function() {
-			brite.display("OverView",null, {
-				parent:$(".right-container")
+		$e.delegate(".text","click",function() {
+			var objId = $(this).closest(".con").attr("data_obj-id");
+			brite.dm.get("Contact",objId).done(function(contact) {
+				brite.display("OverView",contact, {
+					parent:$(".right-container")
+				});
 			});
 		})
 
@@ -75,6 +78,7 @@ var ipad = ipad || {};
 				});
 			});
 		})
+		
 
 
 	}

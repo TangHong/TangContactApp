@@ -1,36 +1,19 @@
 <script type="text/html" id="tmpl-OverView">
 			<div class="OverView">
 			<div class="ContactDisplay-header">Over View</div>
-				<div class="container-fluid">
-					<div class="row-fluid">	
-						<div class="left-container span3">
-								<div class="trash">
-									<p>You can drop here to delete!</p>
-								</div>
-								
+				<div class="container-fluid" data_obj-id="" description="">
+					<div class="row">	
+						<div class="span3">
+							<img class="preview" src="{{#if contact}}{{#if contact.image}}{{contact.image}}{{else}}img/face.png{{/if}}{{else}}img/face.png{{/if}}">
 						</div>
-						
-						<div class="gallery span9">	
-						
-							<div class="row-fluid">
-							{{#if contactList.length}}
-									{{#each contactList}}
-									
-										<div class="tag span3" data_obj-id="{{id}}" description="{{description}}">
-											<div class="image"><img {{#if image}}src="{{image}}"{{else}}src="img/face.png"{{/if}}></div>
-												
-											<div class="text span2">{{name}} </div>
-											<div class="text span2">{{phone}} </div>
-											<div class="text span2">{{description}} </div>
-										</div>
-									{{/each}}
-							{{/if}}	
-							</div>	
-						</div>			
-					</div>			
-				
+						<div class="span3">
+							<legend>{{#if contact}}{{contact.name}}{{else}}Blank Name{{/if}}</legend>
+							<label >Phone:</label>
+							<p>{{#if contact.phone}}{{contact.phone}}{{else}}Blank Phone{{/if}}</p>
+							<label>Description:</label>
+							<p>{{#if contact.description}}{{contact.description}}{{else}}Blank Description{{/if}}</p>
+						</div>
+					<div>
 				</div>								
 			</div>
-			
-	
 </script>

@@ -24,9 +24,6 @@ var ipad = ipad || {};
 	}
 	
 	ByCategory.prototype.init = function(data, config) {
-		var c = this;
-		var $e = c.$element;
-		
 		
 	}
 	
@@ -40,7 +37,6 @@ var ipad = ipad || {};
 			if($container.attr("member_id")) {
 			ids = $container.attr("member_id").split(",");
 			}
-			if(ids.length>0) {
 				brite.dm.list("Contact",{ids:ids}).pipe(function(contacts) {
 					var context = {contactList:contacts};
 					var source = $("#tmpl-contact").html();
@@ -49,7 +45,6 @@ var ipad = ipad || {};
 					var $c = $(conBar);
 					$container.append($c);
 				})
-			}
 		})
 		
 	

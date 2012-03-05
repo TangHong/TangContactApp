@@ -35,27 +35,27 @@ var ipad = ipad || {};
 		var $e = c.$element;
 		
 		$e.find(".con-container").each(function() {
-				var ids = [];
-				var $container = $(this);
-				if($container.attr("member_id")) {
-				ids = $container.attr("member_id").split(",");
-				}
-				if(ids.length>0) {
-					brite.dm.list("Contact",{ids:ids}).pipe(function(contacts) {
-							var context = {contactList:contacts};
-							var source = $("#tmpl-contact").html();
-							var template = Handlebars.compile(source);
-							var conBar = template(context);
-							var $c = $(conBar);
-							$container.append($c);
-					})
-				}
+			var ids = [];
+			var $container = $(this);
+			if($container.attr("member_id")) {
+			ids = $container.attr("member_id").split(",");
+			}
+			if(ids.length>0) {
+				brite.dm.list("Contact",{ids:ids}).pipe(function(contacts) {
+					var context = {contactList:contacts};
+					var source = $("#tmpl-contact").html();
+					var template = Handlebars.compile(source);
+					var conBar = template(context);
+					var $c = $(conBar);
+					$container.append($c);
+				})
+			}
 		})
 		
 	
 		$e.delegate(".create","click",function() {
 			brite.display("CategoryCreate",null, {
-						parent : $workspace
+				parent : $workspace
 			});	
 		})
 		
@@ -65,20 +65,20 @@ var ipad = ipad || {};
 			var existIds = [];
 			
 			if(member_id != "" && member_id != null){	
-					 existIds = member_id.split(",");
+				existIds = member_id.split(",");
 			}
 				
 			var data = {};
 			data.ops = {notIn:existIds};
 			
 			var dfd = brite.display("SelectContact",data, {
-						parent : $workspace
+				parent : $workspace
 			});	
 			
 			dfd.done(function(dialog) {
-					dialog.onAnswer(function(result) {
-						add.call(c,result,categoryId);
-					})
+				dialog.onAnswer(function(result) {
+					add.call(c,result,categoryId);
+				})
 			})
 		})
 		
@@ -100,7 +100,7 @@ var ipad = ipad || {};
 			var objId = $(this).closest(".category-container").attr("data_obj-id");
 			brite.dm.get("Category",objId).done(function(category) {
 				brite.display("CategoryCreate",category, {
-						parent : $workspace
+					parent : $workspace
 				});
 			});
 		})
@@ -130,7 +130,8 @@ var ipad = ipad || {};
 					member_id = c.category[i].member_id.split(",");
 				}
 			}
-		};
+		}
+		
 		if(ids.length >0 ){
 			for(i=0;i<ids.length;i++) {
 				member_id.push(ids[i]);

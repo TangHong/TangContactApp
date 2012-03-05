@@ -11,7 +11,7 @@ var ipad = ipad || {};
 		var source   = $("#tmpl-Main").html();
 		var template = Handlebars.compile(source);	
 		var html = template();
-	  var $e = $(html);
+		var $e = $(html);
 		return $e;
 	}
 	
@@ -24,6 +24,7 @@ var ipad = ipad || {};
 		var $e  = this.$element;
 		
 		var $contactContainer = $(".contact-container");
+		
 		
 		resizeWindow();
 		
@@ -72,7 +73,6 @@ var ipad = ipad || {};
 
 	// --------- Component Private Methods --------- //
 	function resizeWindow() {
-		console.log($(window).width());
 		if($(window).width()>750){
 			var rigConWidth = $(window).width()-350;
 			$(".right-container").width(rigConWidth);	

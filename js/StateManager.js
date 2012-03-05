@@ -6,7 +6,6 @@ var ipad = ipad || {};
 	// this is the current hash
 	ipad.currentHash = null;
 	
-	
 	$(document).ready(function() {
 		window.onhashchange = function() {
 			if(ipad.currentHash != null) {

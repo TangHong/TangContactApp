@@ -11,9 +11,6 @@
 							
 						</div>
 						<div class="con-container" data_obj-id="{{id}}" member_id = "{{member_id}}"></div>
-						{{#unless member_id}}
-							<p class="no-content">No Contact!</p>
-						{{/unless}}
 						<div><button class="add btn">Add</button></div>	
 					</div>
 				{{/each}}
@@ -28,12 +25,13 @@
 	{{#if contactList.length}}
 		{{#each contactList}}
 		<div class="con-bar" data_obj-id="{{id}}">
-											<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
-											<div class="name">{{name}}</div>
-											<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
-											
-											<i class="icon-trash del"></i>
+			<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
+			<div class="name">{{name}}</div>
+			<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
+			<i class="icon-trash del"></i>
 		</div>
 		{{/each}}
+	{{else}}
+		<p class="no-content">No Contact!</p>
 	{{/if}}
 </script>

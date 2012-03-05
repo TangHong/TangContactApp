@@ -5,15 +5,10 @@
 			{{#each categoryList}}
 				<div class="category-container"  data_obj-id="{{id}}" member_id="{{member_id}}" >
 						<div class="group-header">{{name}}
-							
-								<i class="icon-trash delete-group"></i>
-								<i class="icon-pencil edit-group"></i>
-							
+							<i class="icon-trash delete-group"></i>
+							<i class="icon-pencil edit-group"></i>
 						</div>
 						<div class="con-container" data_obj-id="{{id}}" member_id="{{member_id}}"></div>
-						{{#unless member_id}}
-							<p class="no-content">No Contact!</p>
-						{{/unless}}
 						<div><button class="add btn">Add</button></div>	
 					</div>
 			{{/each}}
@@ -31,10 +26,11 @@
 			<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
 			<div class="name">{{name}}</div>
 			<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
-			
 			<i class="icon-trash del"></i>
 		</div>
 		{{/each}}
+	{{else}}
+		<p class="no-content">No Contact!</p>
 	{{/if}}
 </script>
 

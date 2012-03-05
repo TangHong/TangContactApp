@@ -25,15 +25,12 @@
 				<div class="con-bar" data_obj-id="{{id}}">
 					<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
 					<div class="name">{{name}}</div>
-					<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
-
-					<i data-action="rec-del" class="icon-trash del"></i>
+					<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>					
 				</div>
 			{{/each}}
 			{{else}}
 				<p class="no-content">No Contact!</p>
 			{{/if}}
 
-			<div><button class="rec-add btn">Add</button></div>
 	</div>
 </script>

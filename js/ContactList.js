@@ -29,72 +29,44 @@ var ipad = ipad || {};
 		var c = this;
 		var $e = c.$element;
 		
-		//search contact
-		$e.delegate(".search-content","input",function() {
-			var searchContent = $e.find(".search-content").val();
-			if($e.find(".con").length>0) {
-				if(searchContent != null && searchContent != "") {
-					var regExp=new RegExp("^"+searchContent.trim(),"i");
-					$e.find(".con").each(function() {
-						var name = $(this).find(".text").text();
-						if(!regExp.test(name)){
-							$(this).addClass("not-display");
-							$(this).removeClass("display");
-						}else {
-							$(this).addClass("display");
-							$(this).removeClass("not-display");
-						}
-					});
-				}else {
-					$e.find(".con").addClass("display");
-					$e.find(".con").removeClass("not-display");
-				}
-
-				if($e.find(".display").length == 0) {
-					if($e.find("[name='no-search-result']").length == 0) {
-						$e.find(".ipad-contactList").append("<p name='no-search-result' class='no-content'>No Search Result!</p>");	
-					}
-				}else {
-					$e.find("p[name='no-search-result']").remove()					
-				};
-			}
-		})
+		serachContact($e);
 
 		$e.delegate(".button-add","click",function(){
-				brite.display("ContactCreate",null, {
-						parent : $workspace
-					});
+			brite.display("ContactCreate",null, {
+				parent : $workspace
+			});
 		})
 
-		$e.delegate(".overView","click",function() {
-			console.log("success1");
-				brite.display("OverView",null, {
+		$e.delegate(".text","click",function() {
+			var objId = $(this).closest(".con").attr("data_obj-id");
+			brite.dm.get("Contact",objId).done(function(contact) {
+				brite.display("OverView",contact, {
 					parent:$(".right-container")
 				});
+			});
 		})
 
 		$e.delegate(".del","click",function() {
-				var id = $(this).closest(".con").attr("data_obj-id");
-				brite.dm.remove("Contact",id).done(function() {
-					brite.display("Main",null, {
-						parent : $workspace
-					});		
-				});
-			})
+			var id = $(this).closest(".con").attr("data_obj-id");
+			brite.dm.remove("Contact",id).done(function() {
+				brite.display("Main",null, {
+					parent : $workspace
+				});		
+			});
+		})
 
 		$e.delegate(".star","click",function() {
-			if($(this).hasClass("icon-star-empty")){
-					$(this).removeClass("icon-star-empty");
-					$(this).addClass("icon-star");
-					var objId = $(this).closest(".con").attr("data_obj-id");
-					setFavorite(objId);
+			if($(this).hasClass("icon-star-empty")) {
+				$(this).removeClass("icon-star-empty");
+				$(this).addClass("icon-star");
+				var objId = $(this).closest(".con").attr("data_obj-id");
+				setFavorite(objId);
 			}else {
 				$(this).removeClass("icon-star");
 				$(this).addClass("icon-star-empty");	
 				var objId = $(this).closest(".con").attr("data_obj-id");
 				remFavorite(objId);
 				}
-				
 			$("[wizard-id='1']").trigger("click");
 		})
 
@@ -102,10 +74,11 @@ var ipad = ipad || {};
 			var objId = $(this).closest(".con").attr("data_obj-id");
 			brite.dm.get("Contact",objId).done(function(contact) {
 				brite.display("ContactCreate",contact, {
-						parent :$workspace
+					parent :$workspace
 				});
 			});
 		})
+		
 
 
 	}
@@ -113,6 +86,40 @@ var ipad = ipad || {};
 	// --------- /Component Interface Implementation --------- //
 
 	// --------- Component Private Methods --------- //
+		function serachContact($e) {
+			$e.delegate(".search-content","input",function() {
+				var searchContent = $e.find(".search-content").val();
+				if($e.find(".con").length>0) {
+					if(searchContent != null && searchContent != "") {
+						var regExp=new RegExp("^"+searchContent.trim(),"i");
+						$e.find(".con").each(function() {
+							var name = $(this).find(".text").text();
+							if(!regExp.test(name)){
+								$(this).addClass("not-display");
+								$(this).removeClass("display");
+							}else {
+								$(this).addClass("display");
+								$(this).removeClass("not-display");
+							}
+						});
+					}else {
+						$e.find(".con").addClass("display");
+						$e.find(".con").removeClass("not-display");
+					}
+
+					if($e.find(".display").length == 0) {
+						if($e.find("[name='no-search-result']").length == 0) {
+							$e.find(".ipad-contactList").append("<p name='no-search-result' class='no-content'>No Search Result!</p>");	
+						}
+					}else {
+						$e.find("p[name='no-search-result']").remove()					
+					};
+				}
+			})
+		}
+	
+	
+	
 		function setFavorite(objId) {
 			var contact = {};
 			contact.favorite = 1;
@@ -121,16 +128,16 @@ var ipad = ipad || {};
 					parent:$(".right-container")
 				})	
 			});
-	}
+		}
 	
 		function remFavorite(objId) {
-				var contact = {};
-				contact.favorite = 0;
-				brite.dm.update("Contact",objId,contact).done(function() {
-					brite.display("ContactHome",null,{
-						parent:$(".right-container")
-					});
+			var contact = {};
+			contact.favorite = 0;
+			brite.dm.update("Contact",objId,contact).done(function() {
+				brite.display("ContactHome",null,{
+					parent:$(".right-container")
 				});
+			});
 		}
 
 
@@ -144,7 +151,6 @@ var ipad = ipad || {};
 	        return new ContactList();
 	    });	
 	// --------- /Component Registration --------- //
-
 
 
 	ipad.ContactList =ContactList;

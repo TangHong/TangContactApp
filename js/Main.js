@@ -25,7 +25,6 @@ var ipad = ipad || {};
 		
 		var $contactContainer = $(".contact-container");
 		
-		
 		resizeWindow();
 		
 		$(window).resize(function() {

@@ -34,22 +34,28 @@ var ipad = ipad || {};
 		var c = this;
 		var $e = c.$element;
 		
+		
+		
+		
 		$e.find(".con-container").each(function() {
-				var ids = [];
-				var $container = $(this);
-				if($container.attr("member_id")) {
-				ids = $container.attr("member_id").split(",");
-				}
-					brite.dm.list("Contact",{ids:ids}).pipe(function(contacts) {
-							var context = {contactList:contacts};
-							var source = $("#tmpl-contact").html();
-							var template = Handlebars.compile(source);
-							var conBar = template(context);
-							var $c = $(conBar);
-							$container.append($c);
-					}) 
+			var ids = [];
+			var $container = $(this);
+			if($container.attr("member_id")) {
+			ids = $container.attr("member_id").split(",");
+			}
+			
+			brite.dm.list("Contact",{ids:ids}).pipe(function(contacts) {
+				var context = {contactList:contacts};
+				var source = $("#tmpl-contact").html();
+				var template = Handlebars.compile(source);
+				var conBar = template(context);
+				var $c = $(conBar);
+				$container.append($c);
+				$e.find(".collapse").collapse();
+			}) 
 		})
-				
+			
+		
 				
 		$e.delegate(".create","click",function() {
 			brite.display("CompanyCreate",null, {

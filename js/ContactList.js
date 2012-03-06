@@ -49,9 +49,10 @@ var ipad = ipad || {};
 		$e.delegate(".del","click",function() {
 			var id = $(this).closest(".con").attr("data_obj-id");
 			brite.dm.remove("Contact",id).done(function() {
-				brite.display("Main",null, {
-					parent : $workspace
-				});		
+				brite.display("ContactList",null, {
+					parent:$(".contact-container")
+				});
+				c.refresh();	
 			});
 		})
 
@@ -81,6 +82,23 @@ var ipad = ipad || {};
 		
 
 
+	}
+	
+	ContactList.prototype.refresh = function() {
+		var wizardId = $(".wizard-sel").attr("wizard-id");
+		if(wizardId == 1) {
+			brite.display("ContactHome",null,{
+				parent:$(".right-container")
+			})
+		}else if(wizardId == 2) {
+			brite.display("ByCompany",null,{
+				parent:$(".right-container")
+			})
+		}else if(wizardId == 3) {
+			brite.display("ByCategory",null,{
+				parent:$(".right-container")
+			})
+		}
 	}
 
 	// --------- /Component Interface Implementation --------- //
@@ -117,7 +135,6 @@ var ipad = ipad || {};
 				}
 			})
 		}
-	
 	
 	
 		function setFavorite(objId) {

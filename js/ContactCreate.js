@@ -45,6 +45,7 @@ var ipad = ipad || {};
 			
 			
 			$e.find(".ok").click(function(){
+				var contactList = $e.parent().bFindComponents("ContactList")[0];
 				var name = $e.find(".name")[0].value;
 				var phone = $e.find(".phone")[0].value;
 				var description = $e.find(".description")[0].value;
@@ -60,14 +61,16 @@ var ipad = ipad || {};
 				}
 				
 				brite.dm.create("Contact",contact).done(function(){
-					brite.display("Main",null, {
-						parent : $workspace
-					});	
-				});		
-					
+					brite.display("ContactList",null,{
+						parent:$(".contact-container")
+					});
+					contactList.refresh();
+				});	
+				$e.remove();
 			})
 			
 			$e.find(".update").click(function() {
+				var contactList = $e.parent().bFindComponents("ContactList")[0];
 				var objId = $e.find(".ContactCreate").attr("data-obj_id");
 				var name = $e.find(".name")[0].value;
 				var phone = $e.find(".phone")[0].value;
@@ -82,10 +85,12 @@ var ipad = ipad || {};
 				}
 				
 				brite.dm.update("Contact",objId,contact).done(function(){
-					brite.display("Main",null, {
-						parent : $workspace
-					});	
+					brite.display("ContactList",null,{
+						parent:$(".contact-container")
+					});
+					contactList.refresh();
 				});
+				$e.remove();
 			})
 			
 			$e.find(".cancel").click(function(){

@@ -1,23 +1,30 @@
 <script id="tmpl-ByCompany" type="text/html">
 	<div class="ContactDisplay">
 		<div class="ContactDisplay-header">By Company</div>
-		{{#if companyList.length}}
-				{{#each companyList}}
-					<div class="company-container"  data_obj-id="{{id}}" member_id = "{{member_id}}" >
-						<div class="group-header">{{name}} 
-							
-							<i class="icon-trash delete-group"></i>
-							<i class="icon-pencil edit-group"></i>
-							
+		<div class="group-container">
+			{{#if companyList.length}}
+					{{#each companyList}}
+					
+						<div class="company-container"  data_obj-id="{{id}}" member_id = "{{member_id}}" >
+							<div class="group-header" data-toggle="collapse" data-target=".con{{id}}">{{name}} 
+								
+								<i class="icon-trash delete-group"></i>
+								<i class="icon-pencil edit-group"></i>
+								
+							</div>
+							<div class="collapse con{{id}}">
+								<div class="con-container" data_obj-id="{{id}}" member_id = "{{member_id}}"></div>
+								<div><button class="add btn">Add</button></div>
+							</div>
 						</div>
-						<div class="con-container" data_obj-id="{{id}}" member_id = "{{member_id}}"></div>
-						<div><button class="add btn">Add</button></div>	
-					</div>
-				{{/each}}
-		{{else}}
-				<p class="no-content">No Company!</p>
-		{{/if}}	
-			<div><button class="create btn-primary">Create New Company</button></div>	
+					
+					{{/each}}
+			{{else}}
+					<p class="no-content">No Company!</p>
+			{{/if}}	
+				<div><button class="create btn-primary">Create New Company</button></div>
+		
+		</div>	
 	</div>
 </script>
 

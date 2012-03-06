@@ -1,36 +1,40 @@
 <script id="tmpl-ContactHome" type="text/html">
 	<div class="ContactDisplay">
 		<div class="ContactDisplay-header">Contacts Home</div>
-		<div class="group-header">Favorites Contacts</div>
-		{{#if homeList.favorites.length}}
-			{{#each homeList.favorites}}
-				<div class="con-bar" data_obj-id="{{id}}">
-					<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
-					<div class="name">{{name}}</div>
-					<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
-					
-					<i data-action="fav-del" class="icon-trash del"></i>
-				</div>
-			{{/each}}
-		{{else}}
-			<p class="no-content">No Contact!</p>
-		{{/if}}
+		<div class="group-container">
+			<div class="group-header" data-toggle="collapse" data-target=".fav-container">Favorites Contacts</div>
 			
-		<div><button class="fav-add btn">Add</button></div>
-		
-		
-		<div class="group-header">Recent Contacts</div>
-			{{#if homeList.recent.length}}
-			{{#each homeList.recent}}
-				<div class="con-bar" data_obj-id="{{id}}">
-					<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
-					<div class="name">{{name}}</div>
-					<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>					
-				</div>
-			{{/each}}
+			<div class="collapse fav-container">
+			{{#if homeList.favorites.length}}
+				{{#each homeList.favorites}}
+					<div class="con-bar" data_obj-id="{{id}}">
+						<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
+						<div class="name">{{name}}</div>
+						<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>
+						
+						<i data-action="fav-del" class="icon-trash del"></i>
+					</div>
+				{{/each}}
 			{{else}}
 				<p class="no-content">No Contact!</p>
 			{{/if}}
-
+			</div>
+				
+			<div class="group-header" data-toggle="collapse" data-target=".rec-container">Recent Contacts</div>
+			
+				<div class="collapse rec-container">
+				{{#if homeList.recent.length}}
+					{{#each homeList.recent}}
+						<div class="con-bar" data_obj-id="{{id}}">
+							<div class="image"><img src="{{#if image}}{{image}}{{else}}img/face.png{{/if}}"></div>
+							<div class="name">{{name}}</div>
+							<div class="description">{{#if description}}{{description}}{{else}}no description{{/if}}</div>					
+						</div>
+					{{/each}}
+					{{else}}
+						<p class="no-content">No Contact!</p>
+				{{/if}}
+				</div>
+		</div>
 	</div>
 </script>

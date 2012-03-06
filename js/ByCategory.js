@@ -44,6 +44,7 @@ var ipad = ipad || {};
 					var conBar = template(context);
 					var $c = $(conBar);
 					$container.append($c);
+					$e.find(".collapse").collapse();
 				})
 		})
 		

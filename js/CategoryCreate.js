@@ -31,9 +31,15 @@ var ipad = ipad || {};
 				category.name = $e.find(".name")[0].value;
 				
 				brite.dm.create("Category",category).done(function(){
-					$e.remove();
 					brite.display("ByCategory",null,{
 						parent:$(".right-container")
+					});
+					
+					$e.find(".CategoryCreate").html($progress);
+					$e.find('.bar').animate({
+						width: '100%'
+						}, 900,function() {
+							$e.remove();
 					});
 				});	
 				
@@ -46,10 +52,16 @@ var ipad = ipad || {};
 				category.name = $e.find(".name")[0].value;
 
 				brite.dm.update("Category",objId,category).done(function(){
-					$e.remove();
 					brite.display("ByCategory",null, {
 						parent:$(".right-container")
 					});	
+					
+					$e.find(".CategoryCreate").html($progress);
+					$e.find('.bar').animate({
+						width: '100%'
+						}, 900,function() {
+							$e.remove();
+					});
 				});
 			})
 			

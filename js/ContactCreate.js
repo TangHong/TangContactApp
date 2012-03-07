@@ -27,6 +27,7 @@ var ipad = ipad || {};
 			var c = this;
 			var $e = c.$element;
 			
+			
 			$e.delegate(".upload", "change", function() {
 				var $inputUpload = $(this);
 				c.image = null;
@@ -66,7 +67,13 @@ var ipad = ipad || {};
 					});
 					contactList.refresh();
 				});	
-				$e.remove();
+				
+				$e.find(".ContactCreate").html($progress);
+				$e.find('.bar').animate({
+					width: '100%'
+					}, 900,function() {
+						$e.remove();
+				});
 			})
 			
 			$e.find(".update").click(function() {
@@ -90,7 +97,14 @@ var ipad = ipad || {};
 					});
 					contactList.refresh();
 				});
-				$e.remove();
+				
+				$e.find(".ContactCreate").html($progress);
+				$e.find('.bar').animate({
+					width: '100%'
+					}, 900,function() {
+						$e.remove();
+				});
+				
 			})
 			
 			$e.find(".cancel").click(function(){

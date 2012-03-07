@@ -41,6 +41,15 @@ var ipad = ipad || {};
 		
 		$e.delegate(".ok","click",function() {
 				var selectedIds = getSelectedId.call(c);
+				console.log($e.find(".DialogPrompt-container"));
+				console.log($progress);
+				$e.find(".DialogPrompt-container").html($progress);
+				$e.find('.bar').animate({
+					width: '100%'
+					}, 900,function() {
+						$e.remove();
+				});
+				
 				c.setAnswer(selectedIds);
 		})
 		
@@ -57,7 +66,6 @@ var ipad = ipad || {};
 		var c = this;
 		var $e = c.$element;
 		c._answerCallBack(answer);
-		$e.remove();
 	}
 	
 	

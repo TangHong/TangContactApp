@@ -145,6 +145,7 @@ var ipad = ipad || {};
 			brite.display("ByCompany",null,{
 				parent:$(".right-container")
 			})
+			
 		})
 						
 	}

@@ -45,6 +45,16 @@ var ipad = ipad || {};
 					var $c = $(conBar);
 					$container.append($c);
 					$e.find(".collapse").collapse();
+					
+					$e.find('.collapse').on('hidden', function () {
+						var target = $(this).attr("target");
+						$e.find("[data-target='"+target+"']").addClass("col");
+					})
+					
+					$e.find('.collapse').on('shown', function () {
+						var target = $(this).attr("target");
+						$e.find("[data-target='"+target+"']").removeClass("col");
+					})
 				})
 		})
 		

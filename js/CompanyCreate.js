@@ -31,10 +31,17 @@ var ipad = ipad || {};
 				company.name = $e.find(".name")[0].value;
 				
 				brite.dm.create("Company",company).done(function(){
-					$e.remove();
 					brite.display("ByCompany",null,{
 						parent:$(".right-container")
 					});
+					
+					$e.find(".CompanyCreate").html($progress);
+					$e.find('.bar').animate({
+						width: '100%'
+						}, 900,function() {
+							$e.remove();
+					});
+					
 				});	
 				
 			})
@@ -45,10 +52,16 @@ var ipad = ipad || {};
 				company.name = $e.find(".name")[0].value;
 
 				brite.dm.update("Company",objId,company).done(function(){
-					$e.remove();
 					brite.display("ByCompany",null, {
 						parent:$(".right-container")
 					});	
+					
+					$e.find(".CompanyCreate").html($progress);
+					$e.find('.bar').animate({
+						width: '100%'
+						}, 900,function() {
+							$e.remove();
+					});
 				});
 				
 			})

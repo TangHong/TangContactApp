@@ -41,8 +41,6 @@ var ipad = ipad || {};
 		
 		$e.delegate(".ok","click",function() {
 				var selectedIds = getSelectedId.call(c);
-				console.log($e.find(".DialogPrompt-container"));
-				console.log($progress);
 				$e.find(".DialogPrompt-container").html($progress);
 				$e.find('.bar').animate({
 					width: '100%'

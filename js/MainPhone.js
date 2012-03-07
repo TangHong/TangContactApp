@@ -22,14 +22,7 @@ var ipad = ipad || {};
 	MainPhone.prototype.postDisplay = function() {
 		var c  = this;
 		var $e  = this.$element;
-		
 		var $contactContainer = $(".contact-container");
-		
-		
-		$(window).resize(function() {
- 			console.log($(window).width());
-		});
-		
 		
 		brite.display("ContactList",null,{
 			parent:$contactContainer

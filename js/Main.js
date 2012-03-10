@@ -79,7 +79,7 @@ var ipad = ipad || {};
 			$(".right-container").width($(window).width());	
 		}
 	}
-	
+	//2012-03-10
 	// --------- /Component Private Methods --------- //
 	
 	// --------- Component Registration --------- //
